@@ -692,10 +692,27 @@ async function firebaseBackend(cfg) {
   };
 }
 
+/* ---------- auto-update ---------- */
+// GitHub Pages lets browsers cache files for 10 minutes. Every 2 minutes, check whether a newer build is published;
+// reload straight away if nobody is typing, otherwise show a banner.
+const BUILD = document.querySelector('meta[name="build"]')?.content || '';
+async function checkForUpdate() {
+  try {
+    const html = await (await fetch('index.html?check=' + Date.now(), { cache: 'no-store' })).text();
+    const latest = html.match(/<meta name="build" content="([^"]+)"/)?.[1];
+    if (!latest || latest === BUILD) return;
+    const typing = ['TEXTAREA', 'INPUT', 'SELECT'].includes(document.activeElement?.tagName) && document.activeElement.value;
+    if (!typing && !drawerTask) location.reload();
+    else banner('A new version of the board is available — it will load when you finish typing (or refresh the page).');
+  } catch {}
+}
+setInterval(checkForUpdate, 120000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) checkForUpdate(); });
+
 /* ---------- start ---------- */
 let started = false;
 async function start() {
-  if (!me || !USERS[me] || me === 'pa') return showPicker();
+  if (!me || !USERS[me] || me === 'pa') { if (me && !USERS[me]) { me = null; store.set('user', null); } return showPicker(); }
   $('#pick').hidden = true; $('#app').hidden = false;
   $('#who').textContent = uname(me) + ' · ' + USERS[me].role + ' ▾';
   $('#todo-who').value = me;
