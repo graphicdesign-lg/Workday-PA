@@ -359,7 +359,8 @@ function paContext(about) {
   return {
     date: new Intl.DateTimeFormat('en-ZA', {dateStyle: 'short', timeZone: 'Africa/Johannesburg'}).format(new Date()),
     source: dataSource,
-    snapshotAt: data.publishedAt || data.exportedAt || null,
+    asanaLive: asanaState().cls === 'ok',
+    asanaCheckedAt: (asanaState().at ? new Date(asanaState().at).toISOString() : null),
     tasks: tasks.slice(0, 180), taskCount: tasks.length, about: about?.id || null,
     people: PEOPLE.map(id => ({id, name: uname(id), role: USERS[id].role})),
     stages: STAGES, asanaUpdateTypes: TYPES,
@@ -485,7 +486,7 @@ function renderPA() {
     const a = el('div', 'bubble pa'); a.append(el('div', 'from pa', 'PA'));
     if (r.status === 'done' || r.status === 'error') {
       a.firstChild.append(el('span', 'when', fmt(r.repliedAt)));
-      a.append(el('div', null, r.reply || ''));
+      { const body = el('div', 'md'); renderMd(r.reply || '', body); a.append(body); }
       if (r.applied?.length) { const ap = el('div', 'applied'); for (const x of r.applied) ap.append(el('span', 'chip pa', '✓ ' + x)); a.append(ap); }
       if (r.references?.length) { const rf = el('div', 'applied'); for (const id of r.references.slice(0, 8)) { const t = taskById(id); if (t) rf.append(taskTag(id, t.name)); } if (rf.childNodes.length) a.append(rf); }
       if (r.proposal) {
