@@ -17,6 +17,7 @@ const convName = c => c === 'team' ? 'Team chat' : c.slice(3).split('+').filter(
 let conv = 'team';
 const uname = u => USERS[u]?.name || u || '—';
 const $ = s => document.querySelector(s);
+const TYPES = Array.from($('#todo-type').options, option => option.value);
 const store = {
   get(k, d) { try { const v = localStorage.getItem('pa.' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
   set(k, v) { try { localStorage.setItem('pa.' + k, JSON.stringify(v)); } catch {} },
