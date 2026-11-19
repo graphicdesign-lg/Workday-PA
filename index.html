@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Workday PA</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="build" content="2026-11-19.5">
+<meta name="build" content="2026-11-19.7">
 <meta http-equiv="Cache-Control" content="no-cache">
-<link rel="stylesheet" href="style.css?v=2026-11-19.5">
+<link rel="stylesheet" href="style.css?v=2026-11-19.7">
 </head>
 <body>
 <!-- Select your user -->
@@ -29,12 +29,13 @@
     <div class="brand"><span class="logo sm">PA</span><span>Workday PA</span></div>
     <div class="pills">
       <span id="pill-asana" class="pill" title="Asana data"><i></i><span>Asana</span></span>
-      <span id="pill-pa" class="pill" title="PA brain (Claude on Drew's PC)"><i></i><span>PA</span></span>
+      <span id="pill-pa" class="pill" title="Your personal Claude connection"><i></i><span>PA</span></span>
     </div>
     <button id="who" class="who" title="Switch user"></button>
   </header>
   <nav class="tabs" role="tablist">
     <button class="tab" data-view="pa">✦ PA</button>
+    <button class="tab" data-view="work-list">Work list</button>
     <button class="tab" data-view="brief">Brief</button>
     <button class="tab" data-view="board">Board</button>
     <button class="tab" data-view="mine">My work <span id="c-mine" class="badge soft" hidden></span></button>
@@ -50,15 +51,39 @@
     <section id="view-pa" class="view pa-view">
       <div class="brief" id="brief"></div>
       <div id="pa-thread" class="thread"></div>
-      <form id="pa-form" class="composer">
+      <div id="pa-setup" class="composer">
+        <h3>Connect your own PA</h3>
+        <p id="pa-local-link" class="small">Start Workday PA on this computer, then <a href="http://127.0.0.1:4180/">open your personal PA</a>. <a href="https://github.com/graphicdesign-lg/Workday-PA#personal-pa-setup">Setup instructions</a></p>
+        <form id="pa-connect" method="post" hidden>
+          <label for="pa-key">Your Claude API key</label>
+          <div class="row nowrap"><input id="pa-key" type="password" autocomplete="off" spellcheck="false" maxlength="507" required><button class="primary">Connect</button></div>
+          <p class="muted small">Use a key from your own Claude Console account. This session sends your questions and relevant board details to Claude.</p>
+        </form>
+        <p id="pa-connect-status" class="muted small" role="status"></p>
+      </div>
+      <form id="pa-form" class="composer" hidden>
         <div class="chips" id="pa-chips"></div>
         <div id="pa-about" class="about" hidden><span></span><button type="button" aria-label="Remove task link">×</button></div>
         <div class="row nowrap">
           <textarea id="pa-input" rows="1" maxlength="2000" placeholder="Ask your PA — e.g. “What should I do next?” or “Move Stellan to Ready for review”"></textarea>
           <button type="submit" class="primary">Ask</button>
         </div>
-        <p id="pa-note" class="muted small"></p>
+        <div class="row"><p id="pa-note" class="muted small"></p><button id="pa-disconnect" type="button" class="ghost" hidden>Disconnect Claude</button></div>
       </form>
+    </section>
+
+    <section id="view-work-list" class="view wide" hidden>
+      <div class="brief-head">
+        <div><h2 class="h">Work list</h2><p class="muted small">The imported list is saved in this browser for your board profile.</p></div>
+        <label class="ghost">Load work list <input type="file" id="work-list-file" accept=".json,application/json"></label>
+      </div>
+      <p id="work-list-empty" class="empty">Load a work list JSON file to see the tasks and their linked Asana records.</p>
+      <div id="work-list-table" class="work-list-scroll card" hidden>
+        <table class="work-list-table">
+          <thead><tr><th scope="col">#</th><th scope="col">Task</th><th scope="col">Colour or material</th><th scope="col">Action</th><th scope="col">Asana</th></tr></thead>
+          <tbody id="work-list-rows"></tbody>
+        </table>
+      </div>
     </section>
 
     <!-- Brief -->
@@ -312,8 +337,8 @@
 
 <div id="toast" class="toast" hidden></div>
 
-<script src="firebase-config.js?v=2026-11-19.5"></script>
-<script src="data.js?v=2026-11-19.5"></script>
-<script src="app.js?v=2026-11-19.5" defer></script>
+<script src="firebase-config.js?v=2026-11-19.7"></script>
+<script src="data.js?v=2026-11-19.7"></script>
+<script src="app.js?v=2026-11-19.7" defer></script>
 </body>
 </html>

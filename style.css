@@ -205,6 +205,22 @@ h2.h { margin: 0; font-size: 20px; }
 .chat-main { display: flex; flex-direction: column; min-width: 0; }
 @media (max-width: 640px) { .chat-layout { grid-template-columns: 1fr; } .conv-list { position: static; flex-direction: row; overflow-x: auto; } .conv { min-width: 140px; } }
 
+.toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 10px; font-size: 13px; z-index: 30; max-width: 90vw; }
+
+@media (max-width: 640px) {
+  .brand span:last-child { display: none; }
+  .brief { grid-template-columns: repeat(2, 1fr); }
+  .grid2 { grid-template-columns: 1fr; }
+  .bubble { max-width: 92%; }
+  .col { flex-basis: 78vw; }
+}
+.work-list-scroll { overflow-x: auto; }
+.work-list-table { width: 100%; min-width: 650px; border-collapse: collapse; }
+.work-list-table th, .work-list-table td { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line, #ded8d1); }
+.work-list-table tbody tr:last-child > * { border-bottom: 0; }
+.work-list-table td p { margin: 4px 0 0; }
+#work-list-file { max-width: 220px; }
+
 /* handbook */
 .hb-layout { display: grid; grid-template-columns: 280px 1fr; gap: 14px; align-items: start; max-width: 1200px; margin: 0 auto; }
 .hb-side { position: sticky; top: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -237,13 +253,3 @@ h2.h { margin: 0; font-size: 20px; }
 .md hr { border: 0; border-top: 1px solid var(--line); margin: 12px 0; }
 .md a { color: var(--accent); }
 @media (max-width: 760px) { .hb-layout { grid-template-columns: 1fr; } .hb-side { position: static; } .hb-list { max-height: 220px; } .hb-edit { grid-template-columns: 1fr; } }
-
-.toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 10px; font-size: 13px; z-index: 30; max-width: 90vw; }
-
-@media (max-width: 640px) {
-  .brand span:last-child { display: none; }
-  .brief { grid-template-columns: repeat(2, 1fr); }
-  .grid2 { grid-template-columns: 1fr; }
-  .bubble { max-width: 92%; }
-  .col { flex-basis: 78vw; }
-}
