@@ -293,12 +293,12 @@ $('#todo-form').addEventListener('submit', async e => {
 function gptPrompt(items) {
   const lines = items.map((x, i) => {
     const t = x.taskId && taskById(x.taskId);
-    return `${i + 1}. Task: ${x.taskName || '(new task — see details)'}${t?.url ? '\n   Link: ' + t.url : ''}\n   Action: ${x.type}\n   Details: ${x.text}`;
+    return `${i + 1}. [U-${x.id.slice(0, 6)}] Task: ${x.taskName || '(new task — see details)'}${t?.url ? '\n   Link: ' + t.url : ''}\n   Action: ${x.type}\n   Details: ${x.text}`;
   });
   return `Use the Asana app to make these exact updates in Asana for Leather Gallery.\n` +
     `Rules: do only what is listed; post comment text exactly as written; if a task can't be found or an action fails, say so — don't guess or change anything else.\n\n` +
     lines.join('\n\n') +
-    `\n\nWhen finished, reply with a numbered list: ✅ done (with the task link) or ❌ not done (reason) for each item.`;
+    `\n\nWhen finished, reply with a numbered list: ✅ done (with the task link) or ❌ not done (reason) for each item, keeping each [U-ref], then the workday-pa-sync block.`;
 }
 async function copyText(s, what) {
   try { await navigator.clipboard.writeText(s); toast(what + ' copied — paste it into ChatGPT.'); }
@@ -318,24 +318,73 @@ $('#gpt-all').addEventListener('click', () => {
   if (!open.length) return toast('No open Asana updates.');
   sendToGpt(open, open.length + ' update' + (open.length > 1 ? 's' : ''));
 });
+// Read ChatGPT's reply: [U-ref] / numbered ✅❌ lines, plus an optional ```workday-pa-sync JSON block
+// describing what ChatGPT changed in Asana from the chat, stage moves, notes and follow-ups.
+const refToId = ref => { const r = String(ref || '').replace(/^\[?U-/i, '').replace(/\]$/, '').slice(0, 6); return r.length === 6 ? db.asanaTodos.find(x => x.id.startsWith(r))?.id : null; };
+function findTask(name, link) {
+  const gid = String(link || '').match(/task\/(\d{6,})/)?.[1] || String(link || '').match(/\/(\d{10,})(?:\/f)?\/?$/)?.[1];
+  if (gid) { const t = taskById(gid); if (t) return t; }
+  const n = String(name || '').trim().toLowerCase(); if (!n) return null;
+  const all = allTasks();
+  return all.find(t => t.name.trim().toLowerCase() === n || (t.origName || '').trim().toLowerCase() === n) || all.find(t => t.name.toLowerCase().includes(n) || n.includes(t.name.trim().toLowerCase()));
+}
+function parseGptReply(text) {
+  const out = { done: new Set(), failed: new Set(), sync: null };
+  const b = store.get('gptBatch', null);
+  const block = text.match(/```\s*workday-pa-sync\s*([\s\S]*?)```/i) || text.match(/workday-pa-sync\s*(\{[\s\S]*\})/i);
+  if (block) { try { out.sync = JSON.parse(block[1].trim()); } catch { out.syncError = true; } }
+  for (const line of text.replace(block?.[0] || '', '').split(/\r?\n/)) {
+    const isBad = /❌|✖️/u.test(line), isOk = /✅|✔️|✔/u.test(line);
+    if (!isBad && !isOk) continue;
+    const ref = line.match(/U-[A-Za-z0-9_-]{6}/)?.[0];
+    let id = ref ? refToId(ref) : null;
+    if (!id && b?.ids?.length) { const n = Number(line.match(/(?:^|\s)(\d{1,3})[.)]/)?.[1]); if (n) id = b.ids[n - 1]; }
+    if (id) (isBad ? out.failed : out.done).add(id);
+  }
+  for (const r of out.sync?.done || []) { const id = refToId(r); if (id) out.done.add(id); }
+  for (const f of out.sync?.failed || []) { const id = refToId(f.ref || f); if (id) { out.failed.add(id); out.done.delete(id); } }
+  return out;
+}
 $('#gpt-reply').addEventListener('submit', async e => {
   e.preventDefault();
-  const b = store.get('gptBatch', null); const text = $('#gpt-reply-text').value;
-  if (!b?.ids?.length) return toast('Copy updates for ChatGPT first, so I know which items its numbers refer to.');
-  const done = new Set(), failed = new Set();
-  for (const line of text.split(/\r?\n/)) {
-    const m = line.match(/^\s*(✅|✔️|✔|❌|✖️)\s*(\d+)[.)]/u) || line.match(/^\s*(\d+)[.)]\s*(✅|✔️|✔|❌)/u);
-    if (!m) continue;
-    const mark = /\d/.test(m[1]) ? m[2] : m[1], n = Number(/\d/.test(m[1]) ? m[1] : m[2]);
-    (mark === '❌' || mark === '✖️' ? failed : done).add(n);
+  const text = $('#gpt-reply-text').value; if (!text.trim()) return;
+  const r = parseGptReply(text), s = r.sync || {};
+  const ops = [], summary = [];
+  const doneIds = [...r.done].filter(id => db.asanaTodos.some(x => x.id === id && !x.done));
+  for (const id of doneIds) ops.push({ op: 'update', col: 'asanaTodos', id, data: { done: true, doneBy: me, doneAt: 'now' } });
+  if (doneIds.length) summary.push(`${doneIds.length} update${doneIds.length > 1 ? 's' : ''} ticked off`);
+  for (const c of (s.asanaChanges || []).slice(0, 30)) {
+    const t = findTask(c.task, c.link);
+    ops.push({ op: 'add', col: 'log', data: { kind: 'chatgpt', by: me, text: `Asana (via ChatGPT): ${c.action || 'changed'} — ${c.task || 'task'}${c.details ? ': ' + String(c.details).slice(0, 600) : ''}`, taskId: t?.id || null, taskName: t?.name || c.task || null } });
   }
-  const ids = [...done].map(n => b.ids[n - 1]).filter(id => id && db.asanaTodos.some(x => x.id === id && !x.done));
-  if (!ids.length) return toast(done.size ? 'Those items are already ticked off.' : 'No ✅ lines found in the pasted reply.');
+  if (s.asanaChanges?.length) summary.push(`${s.asanaChanges.length} Asana change${s.asanaChanges.length > 1 ? 's' : ''} logged`);
+  let stageN = 0, skipped = 0;
+  for (const x of (s.boardStages || []).slice(0, 30)) {
+    const t = findTask(x.task, x.link);
+    if (!t || !STAGES.includes(x.stage)) { skipped++; continue; }
+    const from = stageOf(t);
+    ops.push({ op: 'set', col: 'stages', id: t.id, data: { stage: x.stage, by: me, note: String(x.note || 'via ChatGPT').slice(0, 500), taskName: t.name } });
+    ops.push({ op: 'add', col: 'stageLog', data: { taskId: t.id, taskName: t.name, stage: x.stage, from: from.auto ? null : from.stage, by: me, note: String(x.note || 'via ChatGPT').slice(0, 500) } });
+    stageN++;
+  }
+  if (stageN) summary.push(`${stageN} stage${stageN > 1 ? 's' : ''} moved`);
+  for (const x of (s.boardNotes || []).slice(0, 30)) {
+    const t = findTask(x.task, x.link); if (!t || !x.text) { skipped++; continue; }
+    ops.push({ op: 'add', col: 'notes', data: { taskId: t.id, taskName: t.name, author: me, text: '(via ChatGPT) ' + String(x.text).slice(0, 1900) } });
+  }
+  if (s.boardNotes?.length) summary.push(`${s.boardNotes.length} note${s.boardNotes.length > 1 ? 's' : ''}`);
+  const TYPES = ['Post a comment', 'Mark complete', 'Reassign', 'Change due date', 'Attach files / folder path', 'Update description', 'Create new task', 'Other'];
+  for (const x of (s.followUps || []).slice(0, 30)) {
+    if (!x.details) continue; const t = findTask(x.task, x.link);
+    ops.push({ op: 'add', col: 'asanaTodos', data: { type: TYPES.includes(x.type) ? x.type : 'Other', text: String(x.details).slice(0, 1900), taskId: t?.id || null, taskName: t?.name || x.task || null, who: x.who === 'kb' ? 'kb' : 'drew', author: me, done: false } });
+  }
+  if (s.followUps?.length) summary.push(`${s.followUps.length} follow-up${s.followUps.length > 1 ? 's' : ''} added`);
+  if (!ops.length) return toast(r.syncError ? 'The workday-pa-sync block could not be read — ask ChatGPT to resend it as valid JSON.' : 'Nothing new to apply (no ✅ items or sync block found).');
   try {
-    await backend.batch(ids.map(id => ({ op: 'update', col: 'asanaTodos', id, data: { done: true, doneBy: me, doneAt: 'now' } })));
+    for (let i = 0; i < ops.length; i += 400) await backend.batch(ops.slice(i, i + 400));
     $('#gpt-reply-text').value = '';
-    toast(`Ticked off ${ids.length} update${ids.length > 1 ? 's' : ''}` + (failed.size ? ` · ${failed.size} still open (❌)` : '') + '.');
-  } catch (err) { toast('Could not update: ' + err.message); }
+    toast('Synced from ChatGPT: ' + summary.join(' · ') + (r.failed.size ? ` · ${r.failed.size} still open (❌)` : '') + (skipped ? ` · ${skipped} skipped (task not found)` : '') + '.');
+  } catch (err) { toast('Could not sync: ' + err.message); }
 });
 function renderTodos() {
   updateBatchInfo();

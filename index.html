@@ -118,10 +118,10 @@
         </div>
       </div>
       <form id="gpt-reply" class="card">
-        <h3>Paste ChatGPT's reply</h3>
-        <p class="muted small">After ChatGPT finishes, paste its ✅ / ❌ list here. Items marked ✅ are ticked off automatically; ❌ ones stay open.</p>
+        <h3>Sync from ChatGPT</h3>
+        <p class="muted small">Paste ChatGPT's whole reply (✅/❌ list and its <code>workday-pa-sync</code> block). ✅ items are ticked off; Asana changes it made from the chat go to History; stage moves, notes and follow-ups are applied to the board.</p>
         <textarea id="gpt-reply-text" rows="3" maxlength="20000" placeholder="✅ 1. Stellan … — comment posted — https://app.asana.com/…"></textarea>
-        <div class="row"><button class="primary" type="submit">Tick off done items</button><span id="gpt-batch-info" class="muted small"></span></div>
+        <div class="row"><button class="primary" type="submit">Sync to board</button><span id="gpt-batch-info" class="muted small"></span></div>
       </form>
       <form id="todo-form" class="card">
         <h3>Add an Asana update</h3>
