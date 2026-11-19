@@ -1,0 +1,50 @@
+﻿WORKDAY PA - GITHUB PAGES TEAM COPY (Drew + KB)
+
+WHAT IT DOES
+  - Select your user first: Drew (Image editing) or KB (Photographer). Switch any time, top-right.
+  - My tasks: what's assigned to you, what you passed on, and what's unassigned.
+  - All tasks: Drew's priority queue + open Asana team tasks with recent comments.
+  - Assign / pass on: open any task > "Pass to KB/Drew", "Assign to me" or "Unassign", with an optional hand-over note.
+    Every hand-over is also posted in Messages.
+  - Asana updates: a shared list of things that must be changed in Asana by hand (comment, mark complete,
+    reassign, due date, files, description, new task). Pick who does it, tick it off when it's done in Asana.
+    "+ Asana update" on any task pre-fills the task.
+  - Shared notes on each task, and Messages between Drew and KB (with unread count + browser notifications).
+  - You can also just double-click index.html to open it on your PC.
+
+FILES IN THE ZIP (upload all of them, to the root of the repo)
+  index.html, style.css, app.js, data.js, data.json, firebase-config.js, .nojekyll
+  firestore.rules and UPLOAD-STEPS.txt are included for reference (harmless if uploaded).
+
+IMPORTANT
+  - A GitHub Pages site is public to anyone with the link. data.js/data.json include task names, notes and Asana comments.
+  - There are no passwords: whoever opens the page picks "Drew" or "KB". Only share the link with KB.
+  - Tasks are a read-only snapshot. This copy does not change Asana, run Claude or sync Asana live.
+
+A. UPLOAD TO GITHUB PAGES
+  1. Unzip workday-pa-github-pages.zip.
+  2. github.com > New repository (e.g. "workday-pa"), Public > Create.
+  3. "uploading an existing file" link (or Add file > Upload files) > drag in ALL the unzipped files > Commit changes.
+     Tip: in File Explorer turn on View > Show > Hidden items so you can see .nojekyll (optional file).
+  4. Settings > Pages > Source: Deploy from a branch > Branch: main, / (root) > Save.
+  5. After a minute: https://<your-github-username>.github.io/workday-pa/
+
+  Works immediately, but until step B is done notes, messages, assignments and Asana to-dos are saved
+  in each person's own browser only (a yellow banner says so).
+
+B. TURN ON SHARING BETWEEN DREW AND KB (Firebase, free)
+  1. console.firebase.google.com > Create a project (any name, Analytics off is fine).
+  2. Build > Authentication > Get started > Sign-in method > Anonymous > Enable > Save.
+  3. Build > Firestore Database > Create database > location (e.g. africa-south1) > Production mode.
+  4. Firestore > Rules > replace everything with the contents of firestore.rules > Publish.
+  5. Project settings (gear) > Your apps > Web (</>) > Register app > copy the firebaseConfig values
+     into firebase-config.js (Notepad is fine).
+  6. Authentication > Settings > Authorized domains > Add: <your-github-username>.github.io
+  7. In GitHub: Add file > Upload files > upload the edited firebase-config.js > Commit.
+  The firebase config values are public identifiers, not passwords; it's fine for them to be in the repo.
+  Note: anything saved in the browser-only mode before this step stays in that browser and is not moved over.
+
+C. UPDATING THE TASK LIST LATER
+  With the PA running on your PC, run in PowerShell:
+    node "C:\Users\Leather Gallery\Documents\Codex\2026-11-17\asana-plugin-asana-openai-curated-remote\outputs\Drew-Workday-PA\export-pages-data.mjs" "C:\Users\Leather Gallery\Documents\WIP\Eli PA\github-pages"
+  Then upload the new data.js and data.json to the repo (replace). Notes, messages, assignments and to-dos stay in Firebase.

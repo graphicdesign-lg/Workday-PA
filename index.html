@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workday PA</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- Step 1: choose who you are -->
+<section id="pick" class="pick" hidden>
+  <div class="pick-card">
+    <h1>Workday PA</h1>
+    <p class="muted">Select your user</p>
+    <div class="users">
+      <button class="user-btn" data-user="drew"><span class="avatar drew">D</span><span><strong>Drew</strong><small>Image editing</small></span></button>
+      <button class="user-btn" data-user="kb"><span class="avatar kb">KB</span><span><strong>KB</strong><small>Photographer</small></span></button>
+    </div>
+  </div>
+</section>
+
+<!-- Main app -->
+<div id="app" hidden>
+  <header class="top">
+    <div class="brand">Workday PA</div>
+    <nav class="tabs">
+      <button class="tab active" data-view="mine">My tasks <span id="mine-count" class="badge soft" hidden></span></button>
+      <button class="tab" data-view="tasks">All tasks</button>
+      <button class="tab" data-view="asana">Asana updates <span id="asana-count" class="badge soft" hidden></span></button>
+      <button class="tab" data-view="messages">Messages <span id="unread" class="badge" hidden></span></button>
+    </nav>
+    <button id="who" class="who" title="Switch user"></button>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <main>
+    <!-- My tasks -->
+    <section id="view-mine" class="view">
+      <div class="seg" role="tablist">
+        <button class="seg-btn active" data-mine="to">Assigned to me</button>
+        <button class="seg-btn" data-mine="by">I passed on</button>
+        <button class="seg-btn" data-mine="none">Unassigned</button>
+      </div>
+      <p id="mine-hint" class="muted small"></p>
+      <ul id="mine-list" class="list"></ul>
+    </section>
+
+    <!-- All tasks -->
+    <section id="view-tasks" class="view" hidden>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search tasks, colours, notes…" autocomplete="off">
+        <span id="snapshot" class="muted small"></span>
+      </div>
+      <p id="focus" class="focus" hidden></p>
+      <h2>Priority queue</h2>
+      <ol id="queue" class="list"></ol>
+      <h2>Team tasks in Asana</h2>
+      <ul id="team" class="list"></ul>
+    </section>
+
+    <!-- Asana manual updates -->
+    <section id="view-asana" class="view" hidden>
+      <form id="todo-form" class="card">
+        <h3>Something to update in Asana</h3>
+        <div class="grid2">
+          <label>Type
+            <select id="todo-type">
+              <option>Post a comment</option>
+              <option>Mark complete</option>
+              <option>Reassign</option>
+              <option>Change due date</option>
+              <option>Attach files / folder path</option>
+              <option>Update description</option>
+              <option>Create new task</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>Task (optional)
+            <input id="todo-task" list="task-names" placeholder="Start typing a task name…" autocomplete="off">
+          </label>
+        </div>
+        <label>What exactly needs to change
+          <textarea id="todo-text" rows="2" maxlength="2000" placeholder="e.g. Comment to Calvin: Stellan cushions smoothed, new files in the server folder"></textarea>
+        </label>
+        <div class="row">
+          <label class="inline">Who will do it
+            <select id="todo-who"><option value="drew">Drew</option><option value="kb">KB</option></select>
+          </label>
+          <button type="submit" class="primary">Add to list</button>
+        </div>
+        <datalist id="task-names"></datalist>
+      </form>
+      <div class="seg">
+        <button class="seg-btn active" data-todo="open">To do</button>
+        <button class="seg-btn" data-todo="mine">Mine to do</button>
+        <button class="seg-btn" data-todo="done">Done</button>
+      </div>
+      <ul id="todo-list" class="list"></ul>
+    </section>
+
+    <!-- Messages -->
+    <section id="view-messages" class="view" hidden>
+      <div id="thread" class="thread"></div>
+      <form id="send" class="composer">
+        <div id="about" class="about" hidden><span></span><button type="button" id="about-clear" aria-label="Remove task link">×</button></div>
+        <div class="row">
+          <textarea id="msg" rows="1" maxlength="2000" placeholder="Message the team…"></textarea>
+          <button type="submit" class="primary">Send</button>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<template id="task-tpl">
+  <li class="task">
+    <button class="task-head" type="button">
+      <span class="pos"></span>
+      <span class="title"></span>
+      <span class="meta"></span>
+      <span class="chips"><span class="assignee"></span><span class="count" hidden></span></span>
+    </button>
+    <div class="task-body" hidden>
+      <div class="assign-box">
+        <span class="assign-now"></span>
+        <div class="row">
+          <input class="assign-note" maxlength="300" placeholder="Hand-over note (optional)">
+          <button type="button" class="primary assign-pass"></button>
+          <button type="button" class="ghost assign-take"></button>
+          <button type="button" class="ghost assign-clear">Unassign</button>
+        </div>
+      </div>
+      <p class="pa-notes"></p>
+      <p class="desc"></p>
+      <div class="comments"></div>
+      <h4>Shared notes</h4>
+      <div class="notes"></div>
+      <form class="note-form">
+        <textarea rows="2" maxlength="2000" placeholder="Add a note for Drew and KB…"></textarea>
+        <div class="row">
+          <button type="submit" class="primary">Add note</button>
+          <button type="button" class="ghost msg-about">Message about this</button>
+          <button type="button" class="ghost todo-about">+ Asana update</button>
+          <a class="ghost asana-link" target="_blank" rel="noopener" hidden>Open in Asana ↗</a>
+        </div>
+      </form>
+    </div>
+  </li>
+</template>
+
+<script src="firebase-config.js"></script>
+<script src="data.js"></script>
+<script src="app.js" defer></script>
+</body>
+</html>

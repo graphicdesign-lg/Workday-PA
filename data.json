@@ -1,0 +1,1162 @@
+{
+ "exportedAt": "2026-11-19T08:13:35.764Z",
+ "focus": "STELLAN-MIDNIGHT BROWN-3S",
+ "queue": [
+  {
+   "id": "1216919347390739",
+   "kind": "asana",
+   "name": "STELLAN-MIDNIGHT BROWN-3S",
+   "owner": "Calvin",
+   "stage": "In progress",
+   "due": null,
+   "queuePos": 1,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Stellan 3 Seater Leather Couch\n\nPrevious record and product information\nStatus: Photography complete — Karabo confirmed all 26 new Stattera products photographed on 11 November 2026. This is the confirmation date; individual shoot date not supplied. Batch editing has started; this product's editing completion is not yet confirmed.\nNext: Edit, match colour reference, self-check and record final folder. Bronwyn reviews; Calvin handles website images.\nReference: https://leathergallery.co.za/products/stellan-3-seater-leather-",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390739",
+   "modifiedAt": "2026-11-19T08:10:17.609Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-17T07:22:10.607Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Stellan 3 Seater Leather Couch\n\nPhotos uploaded and edited \n\n@mention@mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-19T06:44:23.484Z",
+     "text": "Hi Team \ncan you smoothen the back cushions, the Left cushion \n\n\nhttps://app.asana.com/app/asana/-/get_asset?asset_id=1220695754232635\n"
+    },
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-19T08:10:17.609Z",
+     "text": "@mention @mention\n\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Stellan 3 Seater Leather Couch\\0.2\n\nPlease see the updated photos loaded on the server"
+    }
+   ]
+  },
+  {
+   "id": "duty-18f62c17",
+   "kind": "duty",
+   "name": "Sattera floor and wall background",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 2,
+   "notes": "edit the colour of the floor and create verients of the colour of floor and walls \n\ncomp in the following for POC \n- chait\n- otttoman \n- sofa \n- other (if needed) \n\nall brand Stettera\n\n- createed 1 set of bg waiting for kb to review",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-8e36b8ab",
+   "kind": "floor",
+   "name": "Floor #01 · Kuta 3,2HT,1 (Czar Pecan) — Colour Correction",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 3,
+   "notes": "From Floor Priority Stock sheet, row 1.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-663fa15c",
+   "kind": "floor",
+   "name": "Floor #03 · Stanford 3,2,1 - Leather (Czar Pecan) — Upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 4,
+   "notes": "From Floor Priority Stock sheet, row 3.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-b95a202c",
+   "kind": "floor",
+   "name": "Floor #05 · Tobago 3,2,1 Set (Grey) — Edit",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 5,
+   "notes": "From Floor Priority Stock sheet, row 5. Note: Retouch shine.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-d9c0c4b7",
+   "kind": "floor",
+   "name": "Floor #06 · Tobago sectional (Grey) — To Edit",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 6,
+   "notes": "From Floor Priority Stock sheet, row 6. Note: Black needs a colour change.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-580f4671",
+   "kind": "floor",
+   "name": "Floor #07 · Geneva 3,2HT,1 (Luxe Grey) — Shoot and check colour",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 7,
+   "notes": "From Floor Priority Stock sheet, row 7.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-e63c2f76",
+   "kind": "floor",
+   "name": "Floor #08 · Adaline 3,2,1 — Edit",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 8,
+   "notes": "From Floor Priority Stock sheet, row 8. Note: Retouch colour; *CAL* images on site not linking.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-d29f0fb5",
+   "kind": "floor",
+   "name": "Floor #09 · Atlanta suite 3+2+1 (Luxe beige) — Edit",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 9,
+   "notes": "From Floor Priority Stock sheet, row 9. Note: Colour change.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-a187d4e3",
+   "kind": "floor",
+   "name": "Floor #10 · Orlando 3,2,1 (Desert Sand) — Shoot",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 10,
+   "notes": "From Floor Priority Stock sheet, row 10. Note: Reshoot the set.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-e0e5b9f3",
+   "kind": "floor",
+   "name": "Floor #11 · Orlando 1 (Mountain Grey) — Shoot",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 11,
+   "notes": "From Floor Priority Stock sheet, row 11. Note: Reshoot the set.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-9550365d",
+   "kind": "floor",
+   "name": "Floor #12 · Delta 3,2,1 (Luxe Walnut or Grey) — Upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 12,
+   "notes": "From Floor Priority Stock sheet, row 12.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-fac2768e",
+   "kind": "floor",
+   "name": "Floor #13 · Delta 1s x2 (Manatee Grey and Grey) — Upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 13,
+   "notes": "From Floor Priority Stock sheet, row 13.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-4bc93cd0",
+   "kind": "floor",
+   "name": "Floor #14 · Houston (Tan) — Edit + Upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 14,
+   "notes": "From Floor Priority Stock sheet, row 14.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-6bad7949",
+   "kind": "floor",
+   "name": "Floor #17 · Cairo 3,2ht,1 (Noble Grey - Kill Chocolate) — Edit",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 15,
+   "notes": "From Floor Priority Stock sheet, row 17. Note: Edit from card 2.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-5b12574e",
+   "kind": "floor",
+   "name": "Floor #18 · Bentley 3,2ht,1 (Imperial Beige / New Colour Walnut) — Generate",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 16,
+   "notes": "From Floor Priority Stock sheet, row 18. Note: Lifestyle needed.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-6ad9adfa",
+   "kind": "floor",
+   "name": "Floor #19 · Austin 3 or 2 Seater (Fabric) — Edit",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 17,
+   "notes": "From Floor Priority Stock sheet, row 19.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-c5bf4ed4",
+   "kind": "floor",
+   "name": "Floor #20 · Austin 3 or 2 Seater (Leather) — Generate",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 18,
+   "notes": "From Floor Priority Stock sheet, row 20. Note: Lifestyle needed.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-d601c38e",
+   "kind": "floor",
+   "name": "Floor #21 · Austin Ottoman (Fabric and Leather (Order Leather)) — Edit",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 19,
+   "notes": "From Floor Priority Stock sheet, row 21.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-7d8c22f4",
+   "kind": "floor",
+   "name": "Floor #22 · Austin Corner Pieces (Fabric and Leather (Order Leather)) — Edit",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 20,
+   "notes": "From Floor Priority Stock sheet, row 22. Note: Shoot the leather.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-cef1dfaf",
+   "kind": "floor",
+   "name": "Floor #23 · Modena 2 or 3 Seater (Fabric) — Edit",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 21,
+   "notes": "From Floor Priority Stock sheet, row 23. Note: Change Kenya sand to Dove Gray.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-f08ad24f",
+   "kind": "floor",
+   "name": "Floor #25 · Carter 3,2ht,1 (Tan) — Generate",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 22,
+   "notes": "From Floor Priority Stock sheet, row 25. Note: Lifestyle update.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-fea42d25",
+   "kind": "floor",
+   "name": "Floor #27 · Rome 2s + Chaise (Fabric Kenya Sand) — Edit + Reshoot",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 23,
+   "notes": "From Floor Priority Stock sheet, row 27.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-b883f9c7",
+   "kind": "floor",
+   "name": "Floor #28 · Stanford 2s + Chaise (Fabric Kenya sand) — Edit",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 24,
+   "notes": "From Floor Priority Stock sheet, row 28.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-3e38e0f1",
+   "kind": "floor",
+   "name": "Floor #29 · Stanford 2 and 3 Seater (Fabric Kenya sand) — Upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 25,
+   "notes": "From Floor Priority Stock sheet, row 29.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-ec5f8d52",
+   "kind": "floor",
+   "name": "Floor #30 · ISILO 3,2,1 (Czar Pecan) — Edit and upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 26,
+   "notes": "From Floor Priority Stock sheet, row 30. Note: Colour fix.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-7dee71c3",
+   "kind": "floor",
+   "name": "Floor #31 · Dallas 1 Seat Recliner (Leather) — Shoot and Generate",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 27,
+   "notes": "From Floor Priority Stock sheet, row 31. Note: Shoot beige and update lifestyle.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-974ec80c",
+   "kind": "floor",
+   "name": "Floor #32 · Seattle 1 Seater Recliner (Leather) — Upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 28,
+   "notes": "From Floor Priority Stock sheet, row 32. Note: IRW and MG.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-9dee6090",
+   "kind": "floor",
+   "name": "Floor #33 · Seattle 1 Seater Recliner (Fabric) — Shoot and upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 29,
+   "notes": "From Floor Priority Stock sheet, row 33. Note: To shoot the saddle.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-f7d2e5c1",
+   "kind": "floor",
+   "name": "Floor #34 · Dallas 1 Seat Recliner (Fabric) — Upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 30,
+   "notes": "From Floor Priority Stock sheet, row 34.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-792da397",
+   "kind": "floor",
+   "name": "Floor #35 · Kolbe 1 Seater Recliner (Imperial Royal walnut) — Shoot",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 31,
+   "notes": "From Floor Priority Stock sheet, row 35. Note: Shoot the IMP chock.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-8db9591f",
+   "kind": "floor",
+   "name": "Floor #36 · Presley 1 Seater Recliner — Shoot",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 32,
+   "notes": "From Floor Priority Stock sheet, row 36.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-83851d22",
+   "kind": "floor",
+   "name": "Floor #37 · Calvin (Any Colour) — Upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 33,
+   "notes": "From Floor Priority Stock sheet, row 37.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-1b280576",
+   "kind": "floor",
+   "name": "Floor #38 · Alaric (Any Colour) — Upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 34,
+   "notes": "From Floor Priority Stock sheet, row 38.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-eb80909b",
+   "kind": "floor",
+   "name": "Floor #40 · Keanu (Any Colour) — Upload",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 35,
+   "notes": "From Floor Priority Stock sheet, row 40.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  },
+  {
+   "id": "duty-fbb88198",
+   "kind": "floor",
+   "name": "Floor #41 · Belmont — Shoot",
+   "owner": "Drew",
+   "stage": "Queued",
+   "due": null,
+   "queuePos": 36,
+   "notes": "From Floor Priority Stock sheet, row 41.",
+   "description": "",
+   "url": null,
+   "modifiedAt": null,
+   "comments": []
+  }
+ ],
+ "team": [
+  {
+   "id": "1220343000479104",
+   "kind": "asana",
+   "name": "Sorano King XL Leather Bed",
+   "owner": "Karabo",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "task complete on my side",
+   "description": "Product: Sorano King XL Leather Bed\nWebsite colour: Cinder Brown; confirm physical studio label/SKU.\nStatus: Edited images uploaded to server 13 November. Review corrections required — 17 November 2026.\nNext: Drew to remove the sticker on the back of the bed and clean up marks on the velvet so it looks smooth and even, preserving its natural texture and colour. Submit corrected images for another check before website handover.\nReference: https://leathergallery.co.za/products/sorano-king-xl-leather-bed\nFiles: Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Sorano King XL Leather Bed",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1220343000479104",
+   "modifiedAt": "2026-11-19T07:58:25.116Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-13T10:30:42.879Z",
+     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Sorano King XL Leather Bed\n\nPhotos edited and uploaded to server \n\n@mention@mention"
+    },
+    {
+     "by": "Karabo",
+     "at": "2026-11-17T08:16:43.284Z",
+     "text": "https://app.asana.com/0/1220462430883485/ Please make these corrections to the Sorano bed images:    Remove the sticker on the back of the bed.\n    Clean up the marks on the velvet so the material looks smooth and even, while keeping its natural texture and colour.\nPlease let me know when the updated images are loaded so I can check them."
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-18T06:24:08.048Z",
+     "text": "HI Team \nThis has been uploaded\nThanks"
+    },
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-18T07:44:06.383Z",
+     "text": "Hi @mention @mention,\nThe corrections for Sorano King XL Leather Bed are complete and ready for your review.\n\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\BEDROOM\\Sorano King XL Leather Bed\n\nPlease check the updated images and let me know if anything else needs adjusting before the website update.\n\nThanks,\nDrew"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390744",
+   "kind": "asana",
+   "name": "VALEN-ONYX BLACK-2S",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Valen Leather Couch - Onyx Black\n\nPrevious record and product information\nStatus: Photographed, reported by Karabo on 10 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder. Bronwyn reviews; Calvin handles website images.\nReference: https://leathergallery.co.za/products/valen-leather-couch-onyx-black",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390744",
+   "modifiedAt": "2026-11-19T07:13:19.019Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-13T07:05:05.558Z",
+     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Valen Leather Couch - Onyx Black\n\nPhotos edited and uploaded \n\n@mention @mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-19T07:13:19.019Z",
+     "text": "These are uploaded"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390784",
+   "kind": "asana",
+   "name": "AMARI-IVORY MIST-STOOL",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\STOOL\\Amari Stool\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\Amari Stool\\\n\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/amari-stool",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390784",
+   "modifiedAt": "2026-11-19T07:11:22.091Z",
+   "comments": [
+    {
+     "by": "Karabo",
+     "at": "2026-11-12T07:58:00.899Z",
+     "text": "https://app.asana.com/0/1220462430883485/ Karabo would like to split the editing of this 26-product Stattera batch with you. All products have been photographed and batch editing has started. Please agree who will edit each product before starting so work is not duplicated, and use the product colour references/masters. Individual allocations and deadlines are still to be agreed. You have been added as a collaborator on each task.\nAlphabetical batch:\n    https://app.asana.com/0/0/1216919347390784/f/\n    https://app.asana.com/0/0/1216919347390760/f/\n    https://app.asana.com/0/0/1216919347390762/f/\n    https://app.asana.com/0/0/1216919347390710/f/\n    https://app.asana.com/0/0/1216919347390780/f/\n    https://app.asana.com/0/0/1216919347390778/f/\n    https://app.asana.com/0/0/1216919347390717/f/\n    https://app.asana.com/0/0/1216919347390786/f/\n    https://app.asana.com/0/0/1216919347390764/f/\n    https://app.asana.com/0/0/1216919347390774/f/\n    https://app.asana.com/0/0/1216919347390746/f/\n    https://app.asana.com/0/0/1216919347390776/f/\n    https://app.asana.com/0/0/1216919347390766/f/\n    https://app.asana.com/0/0/1220359683896325/f/\n    https://app.asana.com/0/0/1216919347390755/f/\n    https://app.asana.com/0/0/1216919347390768/f/\n    https://app.asana.com/0/0/1216919347390734/f/\n    https://app.asana.com/0/0/1216919347390782/f/\n    https://app.asana.com/0/0/1220343000479104/f/\n    https://app.asana.com/0/0/1216919347390739/f/\n    https://app.asana.com/0/0/121691934739075"
+    },
+    {
+     "by": "Karabo",
+     "at": "2026-11-17T11:20:45.861Z",
+     "text": "https://app.asana.com/0/631089097202201/ Images are done and loaded in their respective folders and can be checked. Please look through these 27 products and load what is remaining on the website. The updated folder paths are on each task. Nara, Ravello and Valerio each have two supplied locations; please check for the latest files without duplicating uploads. Please also confirm the Tenor Stone Beige swatch icon is updated.    https://app.asana.com/0/0/1216919347390784/f/\n    https://app.asana.com/0/0/1216919347390786/f/\n    https://app.asana.com/0/0/1220565384932198/f/\n    https://app.asana.com/0/0/1220569062602388/f/\n    https://app.asana.com/0/0/1220565410850646/f/\n    https://app.asana.com/0/0/1216919347390760/f/\n    https://app.asana.com/0/0/1216919347390762/f/\n    https://app.asana.com/0/0/1216919347390780/f/\n    https://app.asana.com/0/0/1216919347390778/f/\n    https://app.asana.com/0/0/1216919347390764/f/\n    https://app.asana.com/0/0/1216919347390774/f/\n    https://app.asana.com/0/0/1216919347390746/f/\n    https://app.asana.com/0/0/1216919347390776/f/\n    https://app.asana.com/0/0/1216919347390755/f/\n    https://app.asana.com/0/0/1216919347390766/f/\n    https://app.asana.com/0/0/1216919347390768/f/\n    https://app.asana.com/0/0/1216919347390734/f/\n    https://app.asana.com/0/0/1216919347390782/f/\n    https://app.asana.com/0/0/1216919347390753/f/\n    https://app.asana.com/0/0/1216919347390751/f/\n    https://app.asana.com/0/0/1216919347390772/f/\n    https://app.asana."
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-19T07:11:22.091Z",
+     "text": "Hi KB \nThanks \nI am going thou each and upload and generate lifestyle \nThanks"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390764",
+   "kind": "asana",
+   "name": "GRAYSON-MIDNIGHT BROWN-CHAIR",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Grayson Leather Dining Chair\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Grayson Leather Dining Chair\\\n\nStatus: Photography complete — Karabo confirmed all 26 new Stattera products photographed on 11 November 2026. This is the confirmation date; individual shoot date not supplied. Batch editing has started; this product's editing completion is not yet confirmed.\nNext: Edit, match colour reference, self-check and record final folder. Bronwyn reviews; Calvin handles websit",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390764",
+   "modifiedAt": "2026-11-19T07:09:05.175Z",
+   "comments": [
+    {
+     "by": "Calvin",
+     "at": "2026-11-19T07:09:05.175Z",
+     "text": "The Grayson is uploaded \nhave a look \nincluding lifestyle"
+    }
+   ]
+  },
+  {
+   "id": "1220565384932198",
+   "kind": "asana",
+   "name": "Castro Coffee Table — Brown",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table - Brown\n\nPhoto updated \n",
+   "description": "Current correction update — 18 November 2026\nQueued next after Palazzo, as confirmed by Drew. Corrections: straighten the wall/floor line and balance uneven lighting. Next: Drew to correct, self-check and upload for Calvin's review.\n\nEarlier record\nCurrent update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table - Brown\n\nPrevious record and product information\nProduct: Castro Coffee Table — Brown\nProduct code: CASTRO-BROWN-COFFEE TABLE\nStatus: Photographed 16 November 2026. Editing in progress with Drew.\nNext: Edit, self-check and record final folder.",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1220565384932198",
+   "modifiedAt": "2026-11-19T06:52:44.622Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-16T14:40:41.516Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Palazzo Coffee Table\n\nPhotos uploaded and edited \n\n@mention@mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-17T07:04:09.447Z",
+     "text": "Hi Drew \nFew things to fix \nStraighten that line where the wall and the floor meet. \nlighting on of the other angles looks slightly brighter on one side \n\n\nhttps://app.asana.com/app/asana/-/get_asset?asset_id=1220598572098448\n"
+    },
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-18T06:46:41.356Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table - Brown\n\nPhotos uploaded and amended as per request \n\n@mention@mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-19T06:52:44.622Z",
+     "text": "All Good Ready to be published \nNo Pricings as yet"
+    }
+   ]
+  },
+  {
+   "id": "1220565410850646",
+   "kind": "asana",
+   "name": "Palazzo Coffee Table — Marble",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "Corrected images uploaded and recorded in Asana on 18 November 2026.",
+   "description": "Current correction update — 18 November 2026\nIn progress with Drew: lighten the darker angle to match the other angles. Next: finish correction, self-check, upload and request Calvin's review.\n\nEarlier record\nCurrent update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Palazzo Coffee Table\n\nPrevious record and product information\nProduct: Palazzo Coffee Table — Marble\nProduct code: PALAZZO-MARBLE-COFFEE TABLE\nStatus: Photographed 16 November 2026. Editing in progress with Drew.\nNext: Edit, self-check and record final folder.\nHandover: Bronwyn for review when ready; C",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1220565410850646",
+   "modifiedAt": "2026-11-19T06:42:26.837Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-16T14:42:07.364Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table\n\nPhotos edited and uploaded \n\n@mention@mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-17T07:08:29.595Z",
+     "text": "Hi Drew \n\nThis angle looks darker \ncan you help make it lighter to match the other angles \n\nhttps://app.asana.com/app/asana/-/get_asset?asset_id=1220598806581318\n"
+    },
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-18T06:29:01.444Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Palazzo Coffee Table\n\nthe photos for the table have been edited as requested and are uploaded in the server \n\n@mention @mention"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390734",
+   "kind": "asana",
+   "name": "RAVELLO-VINTAGE COGNAC-2S",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\OCCASIONAL\\Ravello 2 Seater Leather Couch\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Ravello 2 Seater Leather Couch\nBoth supplied locations refer to this same product; confirm which contains the latest files.\n\nPrevious record and product information\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/ravello-leather-couch",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390734",
+   "modifiedAt": "2026-11-19T06:34:58.989Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-16T07:39:19.816Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Ravello 2 Seater Leather Couch\n\nPhotos edited and uploaded \n\n@mention @mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-17T06:53:20.214Z",
+     "text": "Hi Drew \nThis has been uploaded \nPlease can you help fix the back cushions of this angle for me.\nThanks \n\nhttps://app.asana.com/app/asana/-/get_asset?asset_id=1220598558880962\n"
+    },
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-17T08:15:48.407Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Ravello 2 Seater Leather Couch\n\nPhotos fixed and in the files \n\n@mention@mention\n\nhttps://app.asana.com/app/asana/-/get_asset?asset_id=1220600488970691\n"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-18T06:32:32.854Z",
+     "text": "Hi @mentionMany thanks \nuploaded"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390776",
+   "kind": "asana",
+   "name": "LYRA-STONE BEIGE-CHAIR",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Lyra Fabric Armchair\n\nPrevious record and product information\nStatus: Photography complete — Karabo confirmed all 26 new Stattera products photographed on 11 November 2026. This is the confirmation date; individual shoot date not supplied. Batch editing has started; this product's editing completion is not yet confirmed.\nNext: Edit, match colour reference, self-check and record final folder. Bronwyn reviews; Calvin handles website images.\nReference: https://leathergallery.co.za/products/lyra-fabric-armchair",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390776",
+   "modifiedAt": "2026-11-18T13:50:31.136Z",
+   "comments": [
+    {
+     "by": "Calvin",
+     "at": "2026-11-18T13:50:31.136Z",
+     "text": "This is Uploaded"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390780",
+   "kind": "asana",
+   "name": "CYRUS-VINTAGE COGNAC-CHAIR",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Cyrus Leather Chair\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Cyrus Leather Chair\\\n\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/cyrus-leather-chair",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390780",
+   "modifiedAt": "2026-11-18T11:13:02.371Z",
+   "comments": [
+    {
+     "by": "Calvin",
+     "at": "2026-11-18T11:13:02.371Z",
+     "text": "Hi Team\nImages uploaded \nLifestyle updated \nThanks"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390774",
+   "kind": "asana",
+   "name": "HARLAN-CINDER BROWN-CHAIR",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Harlan Leather Armchair\n\nPrevious record and product information\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/harlan-leather-armchair",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390774",
+   "modifiedAt": "2026-11-18T10:52:47.690Z",
+   "comments": [
+    {
+     "by": "Calvin",
+     "at": "2026-11-18T10:52:47.690Z",
+     "text": "Hi Team \n\nThis has been uploaded \nhave a look \nIncluding a lifestyle \nThanks"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390760",
+   "kind": "asana",
+   "name": "ASTOR-ONYX BLACK-CHAIR",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Astor Leather Chair - Onyx Black\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Astor Leather Chair - Onyx Black\\\n\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/astor-leather-chair-onyx-black\n\nProduct information\nSUPPLIER INFORMATION\nSUPPLIER NAME\n \n \n \nPRODUCT CODE\n \nAS",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390760",
+   "modifiedAt": "2026-11-18T10:36:21.253Z",
+   "comments": [
+    {
+     "by": "Calvin",
+     "at": "2026-11-18T10:36:21.251Z",
+     "text": "Hi Team \n\nThis has been uploaded"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390778",
+   "kind": "asana",
+   "name": "ELIO-VINTAGE COGNAC-CHAIR",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Elio Leather Dining Chair\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Elio Leather Dining Chair\\\n\nStatus: Photography complete — Karabo confirmed all 26 new Stattera products photographed on 11 November 2026. This is the confirmation date; individual shoot date not supplied. Batch editing has started; this product's editing completion is not yet confirmed.\nNext: Edit, match colour reference, self-check and record final folder. Bronwyn reviews; Calvin handles website imag",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390778",
+   "modifiedAt": "2026-11-18T08:54:10.543Z",
+   "comments": [
+    {
+     "by": "Calvin",
+     "at": "2026-11-18T08:54:10.543Z",
+     "text": "This has been uploaded"
+    }
+   ]
+  },
+  {
+   "id": "1220569062602388",
+   "kind": "asana",
+   "name": "Castro Coffee Table — Natural",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table - Nutral\n\nPrevious record and product information\nProduct: Castro Coffee Table — Natural\nProduct code: CASTRO-NATURAL-COFFEE TABLE\nStatus: Photographed 16 November 2026. Editing in progress with Drew.\nNext: Edit, self-check and record final folder.\nHandover: Bronwyn for review when ready; Calvin for website upload.\nEditing deadline: To agree.",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1220569062602388",
+   "modifiedAt": "2026-11-18T08:20:03.806Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-17T08:03:59.508Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table - Nutral\n\nPhotos edited and uploaded \n\n@mention@mention"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390746",
+   "kind": "asana",
+   "name": "KENSINGTON-CINDER BROWN-1S",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Kensington Leather Wingback Chair\n\nPrevious record and product information\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/kensington-leather-wingback-chair\n\nProduct information\nSUPPLIER INFORMATION\nSUPPLIER NAME\n \n \n \nPRODUCT CODE\n \nKENSINGTON-CINDER BROWN-1S\n \n\n \n\nPRODUCT INFORMATION\nPRODUCT NAME\n \nKENSINGTON LEATHER",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390746",
+   "modifiedAt": "2026-11-18T08:01:49.671Z",
+   "comments": [
+    {
+     "by": "Calvin",
+     "at": "2026-11-18T08:01:49.670Z",
+     "text": "Hi Team \nThis has been uploaded \nThanks"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390755",
+   "kind": "asana",
+   "name": "NARA-CLOUD WHITE-1S-F",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Nara Armchair\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\OCCASIONAL\\Nara Armchair\nBoth supplied locations refer to this same product; confirm which contains the latest files.\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Nara Armchair\\\n\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390755",
+   "modifiedAt": "2026-11-18T07:48:02.804Z",
+   "comments": [
+    {
+     "by": "Calvin",
+     "at": "2026-11-18T07:48:02.804Z",
+     "text": "Images uploaded on the website"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390772",
+   "kind": "asana",
+   "name": "VALERIO-MIDNIGHT BROWN-CHAIR",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\OCCASIONAL\\Valerio Leather Armchair\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Valerio Leather Armchair\nBoth supplied locations refer to this same product; confirm which contains the latest files.\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Valerio Leather Armchair\\\n\nStatus: Lifestyle colour correction required — 17 November 2026. Calvin confirmed the previous website update on 16 November; this correction remains outstanding.\nNext: Calvin to correct the lifestyle image to match",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390772",
+   "modifiedAt": "2026-11-18T06:32:00.673Z",
+   "comments": [
+    {
+     "by": "Calvin",
+     "at": "2026-11-16T08:38:09.579Z",
+     "text": "This was updated"
+    },
+    {
+     "by": "Karabo",
+     "at": "2026-11-17T06:18:37.841Z",
+     "text": "https://app.asana.com/0/1220462430883485/ Please update the Valerio lifestyle image to match the product colour. https://app.asana.com/0/631089097202201/ Please replace the website lifestyle once the corrected image has been checked."
+    },
+    {
+     "by": "Karabo",
+     "at": "2026-11-17T06:19:32.548Z",
+     "text": "https://app.asana.com/0/631089097202201/ You can update the Valerio lifestyle directly to match the product colour and replace it online. No need to wait for Drew."
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-17T07:11:44.870Z",
+     "text": "Hi KB \n\nLifestyle updated \nDanko"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390710",
+   "kind": "asana",
+   "name": "CADENCE-VINTAGE COGNAC-3S",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Cadence 3-Seater Leather Couch\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Cadence 3-Seater Leather Couch\\\n\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/cadence-leather-couch\n\nProduct information\nSUPPLIER INFORMATION\nSUPPLIER NAME\n \n \n \nPRODUCT CODE\n \nCADENCE-VINTAGE COG",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390710",
+   "modifiedAt": "2026-11-17T11:20:41.019Z",
+   "comments": []
+  },
+  {
+   "id": "1216919347390766",
+   "kind": "asana",
+   "name": "MARCELLUS-SADDLE BROWN-CHAIR",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\OCCASIONAL\\Marcellus Saddle Brown Leather Chair\n\nPrevious record and product information\nStatus: Photography complete — Karabo confirmed all 26 new Stattera products photographed on 11 November 2026. This is the confirmation date; individual shoot date not supplied. Batch editing has started; this product's editing completion is not yet confirmed.\nNext: Edit, match colour reference, self-check and record final folder. Bronwyn reviews; Calvin handles website images.\nReference: https://leathergallery.co.za/products/marcellus-lea",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390766",
+   "modifiedAt": "2026-11-17T11:20:40.991Z",
+   "comments": []
+  },
+  {
+   "id": "1216919347390768",
+   "kind": "asana",
+   "name": "ORSELLO-DEEP RUSSET-CHAIR",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\OCCASIONAL\\Orsello Leather Armchair\n\nPrevious record and product information\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/orsello-leather-armchair",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390768",
+   "modifiedAt": "2026-11-17T11:20:40.991Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-16T09:04:05.578Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Orsello Leather Armchair\n\nPhotos uploaded and edited \n\n@mention@mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-17T06:11:31.559Z",
+     "text": "Hi Drew \nThanks uploaded"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390720",
+   "kind": "asana",
+   "name": "WESTCOTT-CINDER BROWN-3S",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Westcott Cinder Brown\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Westcott Cinder Brown\\\n\nStatus: Edited images ready on server, confirmed by Drew. Awaiting Bronwyn review; website upload not confirmed.\nNext: Bronwyn to review, then hand over to Calvin for website upload.\nReference: https://leathergallery.co.za/products/westcott-leather-3-seater-couch\n\nProduct information\nPRODUCT CODE\n \nWESTCOTT-CINDER BROWN-3S\n \n\n \n\nPRODUCT INFORMATION\nPRODUCT NAME\n \nWESTCOTT LEATHER 3-SEAT",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390720",
+   "modifiedAt": "2026-11-17T11:20:40.946Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-12T14:35:33.796Z",
+     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Westcott Cinder Brown\nThe images are ready \n@mention @mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-16T08:37:00.385Z",
+     "text": "Hi Drew \nThis was done"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390742",
+   "kind": "asana",
+   "name": "VALEN-MIDNIGHT BROWN-2S",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Valen Leather Couch - Midnight Brown\n\nPrevious record and product information\nStatus: Photographed, reported by Karabo on 10 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder. Bronwyn reviews; Calvin handles website images.\nReference: https://leathergallery.co.za/products/valen-leather-couch\n\nProduct information\nSUPPLIER INFORMATION\nSUPPLIER NAME\n \n \n \nPRODUCT CODE\n \nVALEN-MIDNIGHT BROWN-2S\nVALEN-ONYX BLACK-2S\n \n\n \n\nPRODUCT INFORMATION\nPRODUCT NAME\n \n \nVALEN LEATHER COUCH\n",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390742",
+   "modifiedAt": "2026-11-17T11:20:40.922Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-13T07:57:05.640Z",
+     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Valen Leather Couch - Midnight Brown\n\nImages edited and on the server \n\n@mention @mention"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390786",
+   "kind": "asana",
+   "name": "EVARA-MEADOW GREEN-STOOL",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\STOOL\\Evara Stool\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\Evara Stool\\\n\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/evara-stool",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390786",
+   "modifiedAt": "2026-11-17T11:20:40.918Z",
+   "comments": []
+  },
+  {
+   "id": "1220359683896325",
+   "kind": "asana",
+   "name": "Montera 3-Seater Leather Couch",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Montera 3 Seater Leather Couch\n\nPrevious record and product information\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/montera-3-seater-leather-couch\n\nProduct information\nColour / exact SKU: Confirm studio label.\nExisting Montera component tasks cover LHF chaise, RHF single-arm and armless pieces. Reconcile component co",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1220359683896325",
+   "modifiedAt": "2026-11-17T11:20:40.904Z",
+   "comments": []
+  },
+  {
+   "id": "1216919347390762",
+   "kind": "asana",
+   "name": "ASTOR-VINTAGE COGNAC-CHAIR",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Astor Leather Chair — Vintage Cognac\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Astor Leather Chair — Vintage Cognac\\\n\nStatus: Photography complete — Karabo confirmed all 26 new Stattera products photographed on 11 November 2026. This is the confirmation date; individual shoot date not supplied. Batch editing has started; this product's editing completion is not yet confirmed.\nNext: Edit, match colour reference, self-check and record final folder. Bronwyn reviews; Calvi",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390762",
+   "modifiedAt": "2026-11-17T11:20:40.895Z",
+   "comments": []
+  },
+  {
+   "id": "1216919347390751",
+   "kind": "asana",
+   "name": "TENOR-DEEP RUSSET-1S",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\OCCASIONAL\\Tenor Leather Armchair - Deep Russet\n\nPrevious record and product information\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/tenor-leather-armchair\n\nProduct information\nSUPPLIER NAME\n \nPRODUCT CODE\nTENOR-DEEP RUSSET-1S\nTENOR-STONE BEIGE-1S\n \n\n \n\nPRODUCT INFORMATION\nPRODUCT NAME\nTENOR LEATHER ARMCHAIR\nTENOR FABRIC ",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390751",
+   "modifiedAt": "2026-11-17T11:20:40.892Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-13T08:27:38.647Z",
+     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Tenor Leather Armchair - Deep Russet\n\nPhotos edited and uploaded to the server \n\n@mention @mention"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390782",
+   "kind": "asana",
+   "name": "SAGE-CHAIR",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\OCCASIONAL\\Sage Armchair\n\nPrevious record and product information\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/sage-armchair",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390782",
+   "modifiedAt": "2026-11-17T11:20:40.892Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-13T11:57:50.832Z",
+     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Sage Armchair\n\nPhotos uploaded and edited \n\n@mention@mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-16T06:46:24.335Z",
+     "text": "Photos updated on the web\nThanks"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390753",
+   "kind": "asana",
+   "name": "TENOR-STONE BEIGE-1S",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\OCCASIONAL\\Tenor Fabric Armchair - Stone Beige\nWebsite follow-up: Confirm the Stone Beige swatch icon update is complete.\n\nPrevious record and product information\nStatus: Edited product images uploaded to server by Drew on 13 November. Stone Beige swatch icon correction required — 17 November 2026.\nNext: Calvin to update the swatch icon to Stone Beige, matching the product colour reference; request the correct swatch asset if needed.\nReference: https://leathergallery.co.za/products/tenor-fabric-armchair-stone-beige\n\nProduct in",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390753",
+   "modifiedAt": "2026-11-17T11:20:40.840Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-13T08:41:11.512Z",
+     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Tenor Fabric Armchair - Stone Beige\n\nPhotos edited and uploaded to server \n\n@mention @mention"
+    },
+    {
+     "by": "Karabo",
+     "at": "2026-11-17T06:18:40.361Z",
+     "text": "https://app.asana.com/0/631089097202201/ Please update the Tenor Fabric Armchair — Stone Beige swatch icon to a Stone Beige swatch that matches the product colour."
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-17T07:12:52.492Z",
+     "text": "Hi KB \n\nWorking on it \nThanks"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390717",
+   "kind": "asana",
+   "name": "ELLIS-DEEP RUSSET-2S",
+   "owner": "Karabo",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Status: Photography complete — Karabo confirmed all 26 new Stattera products photographed on 11 November 2026. This is the confirmation date; individual shoot date not supplied. Batch editing has started; this product's editing completion is not yet confirmed.\nNext: Edit, match colour reference, self-check and record final folder. Bronwyn reviews; Calvin handles website images.\nReference: https://leathergallery.co.za/products/ellis-2-seater-leather-couch\n\nProduct information\nSUPPLIER INFORMATION\nSUPPLIER NAME\n \nPRODUCT CODE\nELLIS-DEEP RUSSET-2S\n\n \n\nPRODUCT INFORMATION\nPRODUCT NAME\nELLIS LEATHER COUCH\nPRODUCT DIMENSIONS\n \nWidth\nDepth\nHeight\n228.0\n108.0\n70.0\n\n\nPRODUCT COLOUR VARIANTS\n \nDEEP RUSSET\n \nPRODUCT MATERIALS\n \ncowhide leather，Nylon Glides leg\n \n \nPRICE\n \nPRODUCT IMAGES",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390717",
+   "modifiedAt": "2026-11-12T07:57:58.158Z",
+   "comments": []
+  }
+ ]
+}

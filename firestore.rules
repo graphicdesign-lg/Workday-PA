@@ -1,0 +1,49 @@
+rules_version = '2';
+// Paste into Firebase console → Firestore Database → Rules → Publish.
+// Signed-in (anonymous) visitors can read and add. Notes and messages can't be edited or deleted from the site.
+service cloud.firestore {
+  match /databases/{db}/documents {
+    function signedIn() { return request.auth != null; }
+    function d() { return request.resource.data; }
+    function user(v) { return v in ['drew', 'kb']; }
+    function txt(v, max) { return v is string && v.size() > 0 && v.size() <= max; }
+    function optTxt(f, max) { return !(f in d()) || d()[f] == null || (d()[f] is string && d()[f].size() <= max); }
+    function stamped() { return d().at == request.time; }
+
+    match /messages/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && user(d().author) && txt(d().text, 2000) && stamped()
+        && optTxt('taskId', 100) && optTxt('taskName', 300)
+        && d().keys().hasOnly(['author', 'text', 'at', 'taskId', 'taskName']);
+      allow update, delete: if false;
+    }
+    match /notes/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && user(d().author) && txt(d().text, 2000) && stamped()
+        && txt(d().taskId, 100) && optTxt('taskName', 300)
+        && d().keys().hasOnly(['author', 'text', 'at', 'taskId', 'taskName']);
+      allow update, delete: if false;
+    }
+    // One document per task: who it is assigned to now (passing on overwrites it).
+    match /assignments/{taskId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && (user(d().assignee) || d().assignee == 'none') && user(d().by) && stamped()
+        && optTxt('note', 300) && optTxt('taskName', 300)
+        && d().keys().hasOnly(['assignee', 'by', 'at', 'note', 'taskName']);
+      allow delete: if false;
+    }
+    // Things to update in Asana by hand. Only the done/undone fields can change after creation.
+    match /asanaTodos/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && user(d().author) && user(d().who) && txt(d().text, 2000) && txt(d().type, 60)
+        && d().done == false && stamped() && optTxt('taskId', 100) && optTxt('taskName', 300)
+        && d().keys().hasOnly(['type', 'text', 'taskId', 'taskName', 'who', 'author', 'done', 'at']);
+      allow update: if signedIn()
+        && d().diff(resource.data).affectedKeys().hasOnly(['done', 'doneBy', 'doneAt'])
+        && ((d().done == true && user(d().doneBy) && d().doneAt == request.time)
+            || (d().done == false && d().doneBy == null && d().doneAt == null));
+      allow delete: if false;
+    }
+    match /{other=**} { allow read, write: if false; }
+  }
+}
