@@ -1,7 +1,7 @@
 // Workday PA — team site (Drew + KB).
 // Tasks: live Asana snapshot published by Drew's PA (Firestore asana/snapshot), falling back to data.js.
 // Shared (Firestore): stages + history, assignments, notes, messages, Asana-update to-dos, PA requests.
-// The PA brain (Claude) runs on Drew's PC and answers paRequests. Asana itself is changed via ChatGPT (copy prompts).
+// The personal PA uses a local Claude API session. Asana writes are handled through the Asana updates workflow.
 const USERS = { drew: { name: 'Drew', role: 'Image editing' }, kb: { name: 'KB', role: 'Photographer' }, calvin: { name: 'Calvin', role: 'Web dev' }, pa: { name: 'PA', role: 'Assistant' } };
 const STAGES = ['To do', 'To shoot', 'Ready to edit', 'Editing', 'Ready for review', 'Changes requested', 'Approved', 'Ready to upload', 'Uploaded to website', 'Asana updated', 'On hold'];
 const FINISHED = new Set(['Asana updated']);
@@ -125,7 +125,10 @@ async function createTask(f) {
 /* ---------- user + navigation ---------- */
 function showPicker() { $('#app').hidden = true; $('#pick').hidden = false; }
 document.querySelectorAll('.user-btn').forEach(b => b.addEventListener('click', () => { me = b.dataset.user; store.set('user', me); start(); }));
-$('#who').addEventListener('click', () => { me = null; store.set('user', null); closeDrawer(); showPicker(); });
+$('#who').addEventListener('click', () => {
+  closePersonalPA();
+  me = null; store.set('user', null); closeDrawer(); showPicker();
+});
 document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => setView(t.dataset.view)));
 function setView(v) {
   view = VIEWS.includes(v) ? v : 'pa'; store.set('view', view);
@@ -174,7 +177,169 @@ const SUGGEST = {
   kb: ['What do I need to shoot?', 'What changed since yesterday?', 'Which reshoots are open?', 'Tell Drew the shoot is done'],
   calvin: ['What is ready to upload?', 'What did I upload this week?', 'Which tasks are waiting on me?', 'Mark Stellan as uploaded to website'],
 };
-function paOnline() { return asanaStatus && Date.now() - ts(asanaStatus.at) < 3 * 60000; }
+function asanaBridgeOnline() { return asanaStatus && Date.now() - ts(asanaStatus.at) < 3 * 60000; }
+const localPA = location.protocol === 'http:' && location.hostname === '127.0.0.1';
+let paSession = null, paTurns = [], paBusy = false, paConnecting = false, paGeneration = 0;
+
+async function personalPA(path, data, session = paSession, keepalive = false) {
+  const response = await fetch('/api/personal-pa/' + path, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', ...(session && {Authorization: 'Bearer ' + session.token})},
+    body: JSON.stringify(data),
+    keepalive,
+  });
+  const result = await response.json();
+  if (!response.ok) throw Object.assign(new Error(result.message), {status: response.status});
+  return result;
+}
+function closePersonalPA() {
+  const session = paSession;
+  paSession = null;
+  paTurns = [];
+  paBusy = false;
+  paConnecting = false;
+  paGeneration++;
+  $('#pa-key').value = '';
+  $('#pa-input').value = '';
+  $('#pa-connect-status').textContent = '';
+  setPaAbout(null);
+  if (session) personalPA('disconnect', {profile: session.profile}, session, true).catch(() => {});
+}
+window.addEventListener('pagehide', closePersonalPA);
+window.addEventListener('pageshow', event => { if (event.persisted) renderAll(); });
+
+$('#pa-connect').addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!localPA || !me || paConnecting || paSession) return;
+  const profile = me, generation = paGeneration;
+  const key = $('#pa-key').value.trim();
+  $('#pa-key').value = '';
+  paConnecting = true;
+  renderAll();
+  $('#pa-connect-status').textContent = 'Checking your Claude API account…';
+  try {
+    const {token} = await personalPA('connect', {profile, key});
+    const session = {profile, token};
+    if (generation !== paGeneration) {
+      personalPA('disconnect', {profile}, session, true).catch(() => {});
+      return;
+    }
+    paSession = session;
+    $('#pa-connect-status').textContent = '';
+  } catch (error) {
+    if (generation === paGeneration) $('#pa-connect-status').textContent = error.status ? error.message : 'Start the personal PA on this computer and try again.';
+  } finally {
+    if (generation === paGeneration) {
+      paConnecting = false;
+      renderAll();
+      if (paSession) $('#pa-input').focus();
+    }
+  }
+});
+$('#pa-disconnect').addEventListener('click', () => { closePersonalPA(); renderAll(); });
+
+function paContext(about) {
+  const tasks = allTasks().map(t => ({
+    id: t.id, name: t.name.slice(0, 300), stage: stageOf(t).stage, assignee: assignment(t).assignee,
+    priority: t.priority, due: t.due, queuePos: t.queuePos,
+  })).sort((a, b) =>
+    Number(b.id === about?.id) - Number(a.id === about?.id) ||
+    Number(FINISHED.has(a.stage)) - Number(FINISHED.has(b.stage)) ||
+    Number(b.assignee === me) - Number(a.assignee === me) ||
+    (a.queuePos || 999) - (b.queuePos || 999));
+  return {
+    date: new Intl.DateTimeFormat('en-ZA', {dateStyle: 'short', timeZone: 'Africa/Johannesburg'}).format(new Date()),
+    source: dataSource,
+    snapshotAt: data.publishedAt || data.exportedAt || null,
+    tasks: tasks.slice(0, 180), taskCount: tasks.length, about: about?.id || null,
+    people: PEOPLE.map(id => ({id, name: uname(id), role: USERS[id].role})),
+    stages: STAGES, asanaUpdateTypes: TYPES,
+    asanaUpdates: db.asanaTodos.filter(x => !x.done).slice(-25).map(x => ({
+      taskId: x.taskId, type: x.type, who: x.who, text: x.text.slice(0, 300),
+    })),
+    recentStageChanges: db.stageLog.slice(-25).map(x => ({taskId: x.taskId, stage: x.stage, by: x.by, at: x.at})),
+    recentConversation: paTurns.filter(x => x.status === 'done').slice(-4).map(x => ({question: x.text, answer: x.reply.slice(0, 1200)})),
+  };
+}
+function reviewPAAction(action, taskIds) {
+  if (!action || action.kind === 'none' || typeof action.taskId !== 'string' ||
+      typeof action.value !== 'string' || typeof action.text !== 'string') return null;
+  const task = taskIds.has(action.taskId) && taskById(action.taskId);
+  const {kind, value, text} = action;
+  const validText = text.trim() && text.length <= 2000;
+  if (kind === 'message' && PEOPLE.includes(value) && value !== me && validText && (task || !action.taskId)) {
+    return {...action, label: 'Send a message to ' + uname(value), detail: text};
+  }
+  if (!task) return null;
+  if (kind === 'stage' && STAGES.includes(value)) return {...action, label: 'Move ' + task.name, detail: value};
+  if (kind === 'assign' && (PEOPLE.includes(value) || value === 'none')) {
+    return {...action, label: 'Assign ' + task.name, detail: value === 'none' ? 'Unassigned' : uname(value)};
+  }
+  if (kind === 'note' && validText) return {...action, label: 'Add a note on ' + task.name, detail: text};
+  if (kind === 'asana' && task.kind === 'asana' && TYPES.includes(value) && validText) {
+    return {...action, label: 'Queue ' + value + ' for ' + task.name, detail: text};
+  }
+  return null;
+}
+async function applyPAAction(turn) {
+  const {proposal} = turn;
+  if (turn.author !== me || !paTurns.includes(turn) || turn.decision || !proposal || !paSession || !backend) return;
+  const task = proposal.taskId ? taskById(proposal.taskId) : null;
+  if (proposal.taskId && !task) { toast('That task is no longer on the board.'); return; }
+  turn.decision = 'Saving…';
+  renderAll();
+  try {
+    const info = {taskId: task?.id || null, taskName: task?.name || null};
+    switch (proposal.kind) {
+      case 'stage': await setStage(task, proposal.value, ''); break;
+      case 'assign': await assign(task, proposal.value, ''); break;
+      case 'note': await backend.add('notes', {...info, author: me, text: proposal.text}); break;
+      case 'asana': await backend.add('asanaTodos', {...info, type: proposal.value, text: proposal.text, who: me, author: me, done: false}); break;
+      case 'message': await backend.add('messages', {...info, author: me, to: dmKey(me, proposal.value), text: proposal.text}); break;
+    }
+    turn.decision = backend.local ? 'Saved in this browser.' : 'Saved to the board.';
+  } catch (error) {
+    turn.decision = null;
+    toast('Could not save: ' + error.message);
+  } finally { renderAll(); }
+}
+async function askPersonalPA(text, about = null) {
+  if (!localPA || !paSession) { toast('Connect your own Claude API account in the PA tab first.'); return false; }
+  if (paBusy) return false;
+  const session = paSession;
+  const context = paContext(about);
+  const taskIds = new Set(context.tasks.map(t => t.id));
+  const turn = {author: me, at: Date.now(), status: 'working', text, taskId: about?.id, taskName: about?.name};
+  paTurns = [...paTurns.slice(-59), turn];
+  paBusy = true;
+  renderAll();
+  scrollThread();
+  try {
+    const result = await personalPA('ask', {profile: me, question: text, context}, session);
+    if (session !== paSession) return false;
+    turn.reply = result.reply.slice(0, 8000);
+    turn.references = result.references.filter(id => taskIds.has(id)).slice(0, 8);
+    turn.proposal = reviewPAAction(result.action, taskIds);
+    turn.status = 'done';
+    return true;
+  } catch (error) {
+    if (session !== paSession) return false;
+    turn.reply = error.status ? error.message : 'The local PA is offline. Start it on this computer and try again.';
+    turn.status = 'error';
+    if (error.status === 401) {
+      paSession = null;
+      personalPA('disconnect', {profile: session.profile}, session, true).catch(() => {});
+    }
+    return false;
+  } finally {
+    turn.repliedAt = Date.now();
+    if (me === turn.author && paTurns.includes(turn)) {
+      paBusy = false;
+      renderAll();
+      if (view === 'pa') scrollThread();
+    }
+  }
+}
 function renderBrief() {
   const b = $('#brief'); b.replaceChildren();
   const mine = allTasks().filter(t => assignment(t).assignee === me && !FINISHED.has(stageOf(t).stage));
@@ -193,10 +358,10 @@ function renderBrief() {
 function renderPA() {
   renderBrief();
   const th = $('#pa-thread'); th.replaceChildren();
-  const rows = db.paRequests.slice().sort((a, b) => a.at - b.at);
+  const rows = [...db.paRequests.filter(r => r.author === me), ...paTurns].sort((a, b) => a.at - b.at);
   if (!rows.length) {
     const hello = el('div', 'bubble pa');
-    hello.append(el('div', 'from pa', 'PA'), el('div', null, `Hi ${uname(me)}. I keep track of every task, stage, hand-over and Asana change for you, ${others(me).map(uname).join(' and ')}. Ask me what to do next, to move a task to a new stage, to pass something on, or to log an Asana update for ChatGPT.`));
+    hello.append(el('div', 'from pa', 'PA'), el('div', null, 'Ask for priorities, a brief, or a proposed change to the board.'));
     th.append(hello);
   }
   let lastDay = '';
@@ -212,24 +377,42 @@ function renderPA() {
       a.append(el('div', null, r.reply || ''));
       if (r.applied?.length) { const ap = el('div', 'applied'); for (const x of r.applied) ap.append(el('span', 'chip pa', '✓ ' + x)); a.append(ap); }
       if (r.references?.length) { const rf = el('div', 'applied'); for (const id of r.references.slice(0, 8)) { const t = taskById(id); if (t) rf.append(taskTag(id, t.name)); } if (rf.childNodes.length) a.append(rf); }
-    } else a.append(el('div', 'typing', r.status === 'working' ? 'Thinking…' : paOnline() ? 'Queued — the PA will answer in a moment…' : 'Queued — the PA brain is offline (Drew’s PC). It will answer when it is back.'));
+      if (r.proposal) {
+        const review = el('div', 'applied');
+        review.append(el('b', null, r.proposal.label), el('div', 'pre', r.proposal.detail));
+        if (r.decision) review.append(el('p', 'small', r.decision));
+        else if (paSession) {
+          const apply = el('button', 'primary', 'Approve and save');
+          const dismiss = el('button', 'ghost', 'Dismiss');
+          apply.addEventListener('click', () => applyPAAction(r));
+          dismiss.addEventListener('click', () => { r.decision = 'Dismissed.'; renderAll(); });
+          review.append(apply, dismiss);
+        }
+        a.append(review);
+      }
+    } else a.append(el('div', 'typing', paTurns.includes(r) ? 'Thinking…' : 'Earlier request from the shared PA queue. Ask again in your personal PA if you still need a reply.'));
     th.append(a);
   }
   const chips = $('#pa-chips'); chips.replaceChildren();
   for (const s of SUGGEST[me] || []) { const c = el('button', null, s); c.type = 'button'; c.addEventListener('click', () => { $('#pa-input').value = s; $('#pa-input').focus(); }); chips.append(c); }
-  $('#pa-note').textContent = backend?.local ? 'Shared sync is off, so the PA can’t receive requests from this page.' :
-    paOnline() ? 'PA brain online · answers with Claude on Drew’s PC · it can change stages, assignments, notes and log Asana updates — it never edits Asana directly.' :
-    'PA brain offline — Drew’s PA isn’t running or team sync isn’t connected. Requests wait in the queue.';
+  $('#pa-setup').hidden = Boolean(paSession);
+  $('#pa-connect').hidden = !localPA;
+  $('#pa-local-link').hidden = localPA;
+  $('#pa-form').hidden = !paSession;
+  $('#pa-disconnect').hidden = !paSession;
+  $('#pa-connect button').disabled = paConnecting;
+  $('#pa-input').disabled = paBusy;
+  $('#pa-form button[type="submit"]').disabled = paBusy;
+  $('#pa-note').textContent = backend?.local ? 'Shared sync is unavailable. The PA is using the saved snapshot.' : 'Using your Claude API account and the shared board.';
 }
 function taskTag(id, name) { const tag = el('span', 'tag', '↳ ' + (name || 'task')); tag.addEventListener('click', () => openDrawer(id)); return tag; }
 function setPaAbout(t) { paAbout = t ? { id: t.id, name: t.name } : null; $('#pa-about').hidden = !paAbout; if (paAbout) $('#pa-about span').textContent = 'About: ' + paAbout.name; }
 $('#pa-about button').addEventListener('click', () => setPaAbout(null));
 $('#pa-form').addEventListener('submit', async e => {
   e.preventDefault(); const ta = $('#pa-input'); const text = ta.value.trim(); if (!text) return;
-  ta.disabled = true;
-  try { await backend.add('paRequests', { author: me, text, status: 'pending', taskId: paAbout?.id || null, taskName: paAbout?.name || null }); ta.value = ''; setPaAbout(null); }
-  catch (err) { toast('Could not send to the PA: ' + err.message); }
-  finally { ta.disabled = false; ta.focus(); }
+  const session = paSession;
+  if (await askPersonalPA(text, paAbout) && session === paSession) { ta.value = ''; setPaAbout(null); }
+  if (session === paSession) ta.focus();
 });
 $('#pa-input').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('#pa-form').requestSubmit(); } });
 
@@ -521,7 +704,6 @@ function renderBriefView() {
     ].slice(0, 12), { empty: 'Nothing urgent.' }),
     bcard('Asana updates to make (ChatGPT)', db.asanaTodos.filter(x => !x.done).map(x => ({ text: `${x.type}${x.taskName ? ' · ' + x.taskName : ''} (${uname(x.who)})`, taskId: x.taskId && taskById(x.taskId) ? x.taskId : null })), { count: db.asanaTodos.filter(x => !x.done).length, empty: 'All Asana updates done.' }),
     bcard('New in Asana (last 24 h)', (data.activity || []).filter(a => ts(a.at) > since).slice(0, 10).map(a => ({ text: a.text, taskId: taskById(a.taskId) ? a.taskId : null })), { empty: 'No Asana changes in the last 24 hours.' }),
-    bcard('Email & calendar', [], { empty: 'Drew’s inbox and calendar stay private on Drew’s PC. The PA reads them when answering — use “Ask PA for a written brief” to include them.' }),
     bcard('Team activity (last 24 h)', [
       ...db.stageLog.filter(s => s.at > since).map(s => ({ at: s.at, text: `${uname(s.by)}: ${s.taskName} → ${s.stage}`, taskId: s.taskId })),
       ...db.log.filter(l => l.at > since).map(l => ({ at: l.at, text: `${uname(l.by)}: ${l.text}`, taskId: l.taskId })),
@@ -530,8 +712,8 @@ function renderBriefView() {
   body.append(grid);
 }
 $('#brief-ask').addEventListener('click', async () => {
-  try { await backend.add('paRequests', { author: me, text: `Give me my brief for today: what changed, my priorities in order, what's blocked or waiting, and which Asana updates are still open.`, status: 'pending', taskId: null, taskName: null }); setView('pa'); }
-  catch (e) { toast('Could not ask the PA: ' + e.message); }
+  setView('pa');
+  await askPersonalPA("Give me my brief for today: what changed, my priorities in order, what's blocked or waiting, and which Asana updates are still open.");
 });
 
 /* ---------- new task ---------- */
@@ -591,7 +773,7 @@ $('#d-stage-save').addEventListener('click', withTask(async t => { await setStag
 $('#d-pass').addEventListener('click', withTask(async t => { const to = $('#d-assign-to').value; if (!to) return; await assign(t, to, $('#d-assign-note').value.trim()); $('#d-assign-note').value = ''; toast('Passed to ' + uname(to)); }));
 $('#d-take').addEventListener('click', withTask(async t => { await assign(t, me, $('#d-assign-note').value.trim()); $('#d-assign-note').value = ''; }));
 $('#d-clear').addEventListener('click', withTask(async t => { await assign(t, 'none', $('#d-assign-note').value.trim()); $('#d-assign-note').value = ''; }));
-$('#d-ask').addEventListener('click', () => { const t = taskById(drawerTask); closeDrawer(); setPaAbout(t); setView('pa'); $('#pa-input').focus(); });
+$('#d-ask').addEventListener('click', () => { const t = taskById(drawerTask); closeDrawer(); setPaAbout(t); setView('pa'); if (paSession) $('#pa-input').focus(); });
 $('#d-msg').addEventListener('click', () => { const t = taskById(drawerTask); closeDrawer(); setMsgAbout(t); setView('messages'); $('#msg').focus(); });
 $('#d-todo').addEventListener('click', () => { const t = taskById(drawerTask); closeDrawer(); $('#todo-task').value = t.name; setView('asana'); $('#todo-text').focus(); });
 $('#d-note-form').addEventListener('submit', withTask(async t => {
@@ -606,7 +788,7 @@ function updateCounts() {
   if (!me) return;
   const seenP = store.get('read.pa.' + me, 0);
   const unread = myConvs().reduce((n, c) => n + (view === 'messages' && c === conv ? 0 : unreadIn(c)), 0);
-  const paNew = view === 'pa' ? 0 : db.paRequests.filter(r => r.status === 'done' && (r.repliedAt || 0) > seenP && r.author === me).length;
+  const paNew = view === 'pa' ? 0 : [...db.paRequests, ...paTurns].filter(r => r.status === 'done' && (r.repliedAt || 0) > seenP && r.author === me).length;
   badge('#c-unread', unread);
   badge('#c-mine', allTasks().filter(t => assignment(t).assignee === me && !FINISHED.has(stageOf(t).stage)).length);
   badge('#c-asana', db.asanaTodos.filter(x => !x.done).length);
@@ -615,10 +797,10 @@ function updateCounts() {
   // status pills
   const pA = $('#pill-asana'), pP = $('#pill-pa');
   const snapAt = dataSource === 'live' ? ts(asanaStatus?.asanaAt) || ts(data.publishedAt) : ts(data.exportedAt);
-  pA.className = 'pill ' + (dataSource === 'live' && asanaStatus?.live && paOnline() ? 'ok' : dataSource === 'live' ? 'warn' : 'bad');
-  pA.lastChild.textContent = dataSource === 'live' ? (asanaStatus?.live && paOnline() ? 'Asana live' : 'Asana ' + ago(snapAt)) : 'Asana snapshot ' + ago(snapAt);
+  pA.className = 'pill ' + (dataSource === 'live' && asanaStatus?.live && asanaBridgeOnline() ? 'ok' : dataSource === 'live' ? 'warn' : 'bad');
+  pA.lastChild.textContent = dataSource === 'live' ? (asanaStatus?.live && asanaBridgeOnline() ? 'Asana live' : 'Asana ' + ago(snapAt)) : 'Asana snapshot ' + ago(snapAt);
   pA.title = dataSource === 'live' ? 'Live Asana data from Drew’s PA (checked every ~15 s while it runs). Last Asana data: ' + fmt(snapAt) : 'Static snapshot from ' + fmt(snapAt) + '. Live sync not connected.';
-  pP.className = 'pill ' + (paOnline() ? 'ok' : 'bad'); pP.lastChild.textContent = paOnline() ? 'PA online' : 'PA offline';
+  pP.className = 'pill ' + (paSession ? 'ok' : 'warn'); pP.lastChild.textContent = paSession ? 'Personal PA connected' : 'Personal PA';
 }
 function renderAll() {
   if (!me) return;
