@@ -5,7 +5,7 @@
 const USERS = { drew: { name: 'Drew', role: 'Image editing' }, kb: { name: 'KB', role: 'Photographer' }, calvin: { name: 'Calvin', role: 'Web dev' }, pa: { name: 'PA', role: 'Assistant' } };
 const STAGES = ['To do', 'To shoot', 'Ready to edit', 'Editing', 'Ready for review', 'Changes requested', 'Approved', 'Ready to upload', 'Uploaded to website', 'Asana updated', 'On hold'];
 const FINISHED = new Set(['Asana updated']);
-const VIEWS = ['pa', 'brief', 'board', 'mine', 'asana', 'messages', 'activity'];
+const VIEWS = ['pa', 'brief', 'board', 'mine', 'asana', 'messages', 'handbook', 'activity'];
 const PRIORITIES = ['High', 'Normal', 'Low'];
 const PEOPLE = ['drew', 'kb', 'calvin'];
 const others = u => PEOPLE.filter(p => p !== u);
@@ -26,7 +26,7 @@ let me = store.get('user', null);
 let view = store.get('view', 'pa');
 let fallbackData = window.PA_DATA || { queue: [], team: [] };
 let data = fallbackData, dataSource = 'snapshot file';
-const db = { notes: [], messages: [], assignments: [], asanaTodos: [], stages: [], stageLog: [], paRequests: [], taskEdits: [], customTasks: [], log: [] };
+const db = { notes: [], messages: [], assignments: [], asanaTodos: [], stages: [], stageLog: [], paRequests: [], taskEdits: [], customTasks: [], log: [], handbook: [] };
 let asanaStatus = null;
 let backend = null;
 let msgAbout = null, paAbout = null, drawerTask = null;
@@ -629,6 +629,7 @@ function renderAll() {
   if (view === 'asana') renderTodos();
   if (view === 'messages') renderMessages();
   if (view === 'activity') renderActivity();
+  if (view === 'handbook') renderHandbook();
   if (drawerTask) renderDrawer();
   updateCounts();
 }
@@ -667,7 +668,7 @@ async function firebaseBackend(cfg) {
     snap => { const prev = db[name]; db[name] = rows(snap); after?.(prev); renderAll(); },
     err => banner('Sync error (' + name + '): ' + err.message));
   listen('notes', 1000); listen('assignments', 1000); listen('asanaTodos', 500); listen('stages', 1000); listen('stageLog', 600);
-  listen('taskEdits', 1000); listen('customTasks', 500); listen('log', 600);
+  listen('taskEdits', 1000); listen('customTasks', 500); listen('log', 600); listen('handbook', 500);
   listen('messages', 800, () => { if (view === 'messages') scrollThread(); });
   listen('paRequests', 150, () => { if (view === 'pa') { markRead('pa'); scrollThread(); } });
   fs.onSnapshot(fs.doc(fdb, 'asana', 'snapshot'), d => {
@@ -691,6 +692,154 @@ async function firebaseBackend(cfg) {
     update(col, id, data) { return this.batch([{ op: 'update', col, id, data }]); },
   };
 }
+
+/* ---------- markdown (safe: builds DOM nodes, never innerHTML) ---------- */
+function mdInline(text, parent) {
+  // tokens: `code`, **bold**, *italic* / _italic_, [text](http…)
+  const re = /(`[^`]+`)|(\*\*[^*]+\*\*)|(\*[^*\s][^*]*\*|_[^_\s][^_]*_)|(\[[^\]]+\]\((https?:\/\/[^)\s]+|mailto:[^)\s]+)\))/g;
+  let last = 0, m;
+  while ((m = re.exec(text))) {
+    if (m.index > last) parent.append(text.slice(last, m.index));
+    const t = m[0];
+    if (m[1]) parent.append(el('code', null, t.slice(1, -1)));
+    else if (m[2]) { const b = el('strong'); mdInline(t.slice(2, -2), b); parent.append(b); }
+    else if (m[3]) { const i = el('em'); mdInline(t.slice(1, -1), i); parent.append(i); }
+    else if (m[4]) { const a = el('a', null, t.slice(1, t.indexOf(']('))); a.href = m[5]; a.target = '_blank'; a.rel = 'noopener noreferrer'; parent.append(a); }
+    last = m.index + t.length;
+  }
+  if (last < text.length) parent.append(text.slice(last));
+}
+// onToggle(lineIndex, checked) is called for "- [ ]" checklist items when given.
+function renderMd(src, target, onToggle) {
+  target.replaceChildren();
+  const lines = String(src || '').replace(/\r\n?/g, '\n').split('\n');
+  let i = 0, list = null, listType = null, para = null;
+  const endPara = () => { para = null; }, endList = () => { list = null; listType = null; };
+  while (i < lines.length) {
+    const line = lines[i];
+    if (/^```/.test(line)) { endPara(); endList(); const code = []; i++; while (i < lines.length && !/^```/.test(lines[i])) code.push(lines[i++]); const pre = el('pre'); pre.append(el('code', null, code.join('\n'))); target.append(pre); i++; continue; }
+    const h = line.match(/^(#{1,3})\s+(.*)$/);
+    if (h) { endPara(); endList(); const e = el('h' + h[1].length); mdInline(h[2], e); target.append(e); i++; continue; }
+    if (/^\s*(---|\*\*\*)\s*$/.test(line)) { endPara(); endList(); target.append(el('hr')); i++; continue; }
+    const q = line.match(/^>\s?(.*)$/);
+    if (q) { endPara(); endList(); const bq = el('blockquote'); const parts = [q[1]]; while (i + 1 < lines.length && /^>\s?/.test(lines[i + 1])) parts.push(lines[++i].replace(/^>\s?/, '')); const p = el('p'); mdInline(parts.join(' '), p); bq.append(p); target.append(bq); i++; continue; }
+    const task = line.match(/^\s*[-*]\s+\[( |x|X)\]\s+(.*)$/);
+    const ul = !task && line.match(/^\s*[-*]\s+(.*)$/);
+    const ol = line.match(/^\s*(\d+)[.)]\s+(.*)$/);
+    if (task || ul || ol) {
+      endPara();
+      const type = ol ? 'ol' : 'ul';
+      if (!list || listType !== type) { list = el(type); listType = type; target.append(list); }
+      const li = el('li');
+      if (task) {
+        const done = task[1].toLowerCase() === 'x'; li.className = 'task' + (done ? ' done' : '');
+        const cb = el('input'); cb.type = 'checkbox'; cb.checked = done;
+        if (onToggle) { const idx = i; cb.addEventListener('change', () => onToggle(idx, cb.checked)); } else cb.disabled = true;
+        const span = el('span'); mdInline(task[2], span); li.append(cb, span);
+      } else mdInline((ul || ol)[ol ? 2 : 1], li);
+      list.append(li); i++; continue;
+    }
+    if (!line.trim()) { endPara(); endList(); i++; continue; }
+    endList();
+    if (!para) { para = el('p'); target.append(para); } else para.append(el('br'));
+    mdInline(line, para); i++;
+  }
+  if (!target.childNodes.length) target.append(el('p', 'muted', 'Nothing written yet.'));
+}
+
+/* ---------- Handbook ---------- */
+let hbSel = null, hbEditing = null;
+const hbPages = () => db.handbook.filter(p => !p.archived);
+function renderHandbook() {
+  const q = $('#hb-search').value.trim().toLowerCase();
+  const pages = hbPages().filter(p => !q || (p.title + ' ' + (p.category || '') + ' ' + p.body).toLowerCase().includes(q))
+    .sort((a, b) => (a.category || 'General').localeCompare(b.category || 'General') || a.title.localeCompare(b.title));
+  const list = $('#hb-list'); list.replaceChildren();
+  let cat = null;
+  for (const p of pages) {
+    const c = p.category || 'General';
+    if (c !== cat) { list.append(el('div', 'hb-cat-h', c)); cat = c; }
+    const b = el('button', 'hb-item' + (p.id === hbSel ? ' active' : ''), p.title); b.type = 'button';
+    b.append(el('small', null, `${uname(p.updatedBy)} · ${ago(p.at)}`));
+    b.addEventListener('click', () => { hbSel = p.id; hbEditing = null; renderHandbook(); });
+    list.append(b);
+  }
+  if (!pages.length) list.append(el('div', 'muted small', q ? 'No pages match.' : 'No pages yet.'));
+  const dl = $('#hb-cats'); dl.replaceChildren(...[...new Set(['Editing', 'Shoots', 'Website', 'Asana', 'Team', ...hbPages().map(p => p.category).filter(Boolean)])].map(c => { const o = document.createElement('option'); o.value = c; return o; }));
+  if (hbEditing) return; // keep the editor untouched while typing
+  const page = hbPages().find(p => p.id === hbSel) || (q ? pages[0] : null) || hbPages().sort((a, b) => b.at - a.at)[0];
+  $('#hb-form').hidden = true;
+  $('#hb-empty').hidden = !!page; $('#hb-view').hidden = !page;
+  if (!page) return;
+  hbSel = page.id;
+  $('#hb-cat').textContent = page.category || 'General';
+  $('#hb-title').textContent = page.title;
+  $('#hb-meta').textContent = `Last edited by ${uname(page.updatedBy)} · ${fmt(page.at)}` + (page.createdBy && page.createdBy !== page.updatedBy ? ` · started by ${uname(page.createdBy)}` : '');
+  renderMd(page.body, $('#hb-body'), (lineIdx, checked) => toggleCheck(page, lineIdx, checked));
+  const hist = $('#hb-history'); hist.replaceChildren();
+  for (const l of db.log.filter(l => l.kind === 'handbook' && l.taskId === 'hb-' + page.id).sort((a, b) => b.at - a.at).slice(0, 30)) hist.append(el('li', null, `${fmt(l.at)} · ${uname(l.by)}: ${l.text}`));
+  if (!hist.childNodes.length) hist.append(el('li', 'muted', 'No edits recorded yet.'));
+}
+async function savePage(p, fields, note) {
+  const id = p?.id || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())).replace(/-/g, '').slice(0, 20);
+  const data = { title: fields.title, category: fields.category || 'General', body: fields.body, createdBy: p?.createdBy || me, updatedBy: me };
+  if (fields.archived) data.archived = true;
+  await backend.batch([
+    { op: 'set', col: 'handbook', id, data },
+    { op: 'add', col: 'log', data: { kind: 'handbook', by: me, text: note || (p ? `Edited "${fields.title}"` : `Created "${fields.title}"`), taskId: 'hb-' + id, taskName: fields.title } },
+  ]);
+  return id;
+}
+async function toggleCheck(page, lineIdx, checked) {
+  const lines = page.body.replace(/\r\n?/g, '\n').split('\n');
+  if (!/^\s*[-*]\s+\[( |x|X)\]/.test(lines[lineIdx] || '')) return;
+  lines[lineIdx] = lines[lineIdx].replace(/\[( |x|X)\]/, checked ? '[x]' : '[ ]');
+  const item = lines[lineIdx].replace(/^\s*[-*]\s+\[.\]\s+/, '').slice(0, 80);
+  try { await savePage(page, { title: page.title, category: page.category, body: lines.join('\n') }, `${checked ? 'Ticked' : 'Unticked'} "${item}" in "${page.title}"`); }
+  catch (e) { toast('Could not save: ' + e.message); }
+}
+function openEditor(page) {
+  hbEditing = page ? page.id : 'new';
+  $('#hb-view').hidden = true; $('#hb-empty').hidden = true; $('#hb-form').hidden = false;
+  $('#hb-f-title').value = page?.title || ''; $('#hb-f-cat').value = page?.category || '';
+  $('#hb-f-body').value = page?.body || ''; $('#hb-archive').hidden = !page;
+  updatePreview(); (page ? $('#hb-f-body') : $('#hb-f-title')).focus();
+}
+function closeEditor() { hbEditing = null; renderHandbook(); }
+function updatePreview() {
+  const on = $('#hb-preview-on').checked;
+  $('#hb-preview').hidden = !on; document.querySelector('.hb-edit').classList.toggle('nopreview', !on);
+  if (on) renderMd($('#hb-f-body').value, $('#hb-preview'));
+}
+$('#hb-search').addEventListener('input', () => { hbSel = null; renderHandbook(); });
+$('#hb-new').addEventListener('click', () => openEditor(null));
+$('#hb-new2').addEventListener('click', () => openEditor(null));
+$('#hb-edit').addEventListener('click', () => openEditor(hbPages().find(p => p.id === hbSel)));
+$('#hb-cancel').addEventListener('click', closeEditor);
+$('#hb-copy').addEventListener('click', () => { const p = hbPages().find(x => x.id === hbSel); if (p) copyText(`# ${p.title}\n\n${p.body}`, 'Page'); });
+$('#hb-f-body').addEventListener('input', () => { clearTimeout(updatePreview.t); updatePreview.t = setTimeout(updatePreview, 150); });
+$('#hb-preview-on').addEventListener('change', updatePreview);
+$('#hb-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const title = $('#hb-f-title').value.trim(); if (!title) return $('#hb-f-title').focus();
+  const page = hbEditing !== 'new' ? hbPages().find(p => p.id === hbEditing) : null;
+  try { hbSel = await savePage(page, { title, category: $('#hb-f-cat').value.trim(), body: $('#hb-f-body').value }); hbEditing = null; toast('Saved to the handbook.'); renderHandbook(); }
+  catch (err) { toast('Could not save: ' + err.message); }
+});
+$('#hb-archive').addEventListener('click', async () => {
+  const page = hbPages().find(p => p.id === hbEditing); if (!page) return;
+  if (!confirm(`Archive "${page.title}"? It disappears from the handbook (it can be restored by Drew from Firebase).`)) return;
+  try { await savePage(page, { title: page.title, category: page.category, body: page.body, archived: true }, `Archived "${page.title}"`); hbEditing = null; hbSel = null; toast('Page archived.'); renderHandbook(); }
+  catch (err) { toast('Could not archive: ' + err.message); }
+});
+// formatting toolbar: wraps the selection or inserts at line start
+document.querySelectorAll('#hb-tools [data-md]').forEach(b => b.addEventListener('click', () => {
+  const ta = $('#hb-f-body'), s = ta.selectionStart, e2 = ta.selectionEnd, v = ta.value, sel = v.slice(s, e2);
+  const wrap = (a, z, ph) => { const t = sel || ph; ta.setRangeText(a + t + z, s, e2, 'end'); if (!sel) { ta.selectionStart = s + a.length; ta.selectionEnd = s + a.length + t.length; } };
+  const prefix = p => { const ls = v.lastIndexOf('\n', s - 1) + 1; const block = v.slice(ls, e2) || ''; const out = (block || 'item').split('\n').map((l, n) => (typeof p === 'function' ? p(n) : p) + l).join('\n'); ta.setRangeText(out, ls, e2, 'end'); };
+  ({ h2: () => prefix('## '), bold: () => wrap('**', '**', 'bold text'), italic: () => wrap('*', '*', 'italic text'), ul: () => prefix('- '), ol: () => prefix(n => `${n + 1}. `), check: () => prefix('- [ ] '), link: () => wrap('[', '](https://)', 'link text'), code: () => wrap('`', '`', 'path or code'), quote: () => prefix('> ') })[b.dataset.md]();
+  ta.focus(); updatePreview();
+}));
 
 /* ---------- auto-update ---------- */
 // GitHub Pages lets browsers cache files for 10 minutes. Every 2 minutes, check whether a newer build is published;

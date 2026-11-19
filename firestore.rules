@@ -87,6 +87,14 @@ service cloud.firestore {
         && d().diff(resource.data).affectedKeys().hasOnly(['status', 'reply', 'references', 'applied', 'repliedAt']);
     }
     // Live Asana snapshot + PA heartbeat, written only by the PA bridge.
+    // Team handbook (markdown pages). Anyone on the board can write/edit; "deleting" is archiving.
+    match /handbook/{id} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && txt(d().title, 150) && optTxt('category', 60)
+        && d().body is string && d().body.size() <= 50000 && actor(d().updatedBy) && actor(d().createdBy) && stamped()
+        && (!('archived' in d()) || d().archived is bool)
+        && d().keys().hasOnly(['title', 'category', 'body', 'createdBy', 'updatedBy', 'at', 'archived']);
+    }
     // Private ChatGPT feed: readable by exact (random, secret) id only — never listed. Written only by the PA bridge.
     match /gptFeed/{key} {
       allow get: if true;

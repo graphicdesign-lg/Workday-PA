@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Workday PA</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="build" content="2026-11-19.4">
+<meta name="build" content="2026-11-19.5">
 <meta http-equiv="Cache-Control" content="no-cache">
-<link rel="stylesheet" href="style.css?v=2026-11-19.4">
+<link rel="stylesheet" href="style.css?v=2026-11-19.5">
 </head>
 <body>
 <!-- Select your user -->
@@ -40,6 +40,7 @@
     <button class="tab" data-view="mine">My work <span id="c-mine" class="badge soft" hidden></span></button>
     <button class="tab" data-view="asana">Asana updates <span id="c-asana" class="badge soft" hidden></span></button>
     <button class="tab" data-view="messages">Messages <span id="c-unread" class="badge" hidden></span></button>
+    <button class="tab" data-view="handbook">📘 Handbook</button>
     <button class="tab" data-view="activity">History</button>
   </nav>
   <div id="banner" class="banner" hidden></div>
@@ -173,6 +174,62 @@
       </form>
     </section>
 
+    <!-- Handbook -->
+    <section id="view-handbook" class="view wide">
+      <div class="hb-layout">
+        <aside class="hb-side">
+          <div class="row nowrap">
+            <input id="hb-search" type="search" placeholder="Search the handbook…" autocomplete="off">
+            <button id="hb-new" class="primary" type="button">+ New</button>
+          </div>
+          <div id="hb-list" class="hb-list"></div>
+        </aside>
+        <article class="hb-main card">
+          <div id="hb-view">
+            <div class="hb-head">
+              <div><div id="hb-cat" class="muted small"></div><h2 id="hb-title" class="h"></h2><div id="hb-meta" class="muted small"></div></div>
+              <div class="row"><button id="hb-edit" class="ghost" type="button">✎ Edit</button><button id="hb-copy" class="ghost" type="button">Copy markdown</button></div>
+            </div>
+            <div id="hb-body" class="md"></div>
+            <details class="hb-hist"><summary class="muted small">Edit history</summary><ol id="hb-history" class="mini-timeline"></ol></details>
+          </div>
+          <form id="hb-form" hidden>
+            <div class="grid3 hb-fields">
+              <label class="lbl">Title<input id="hb-f-title" maxlength="150" required placeholder="e.g. How to colour-match leather swatches"></label>
+              <label class="lbl">Category<input id="hb-f-cat" maxlength="60" list="hb-cats" placeholder="e.g. Editing, Shoots, Website, Asana"></label>
+              <datalist id="hb-cats"></datalist>
+            </div>
+            <div class="md-toolbar" id="hb-tools">
+              <button type="button" data-md="h2" title="Heading">H</button>
+              <button type="button" data-md="bold" title="Bold"><b>B</b></button>
+              <button type="button" data-md="italic" title="Italic"><i>I</i></button>
+              <button type="button" data-md="ul" title="Bullet list">• List</button>
+              <button type="button" data-md="ol" title="Numbered list">1. List</button>
+              <button type="button" data-md="check" title="Checklist">☐ Checklist</button>
+              <button type="button" data-md="link" title="Link">Link</button>
+              <button type="button" data-md="code" title="Code / path">`code`</button>
+              <button type="button" data-md="quote" title="Tip / quote">❝ Tip</button>
+              <label class="inline small"><input type="checkbox" id="hb-preview-on" checked> Preview</label>
+            </div>
+            <div class="hb-edit">
+              <textarea id="hb-f-body" rows="18" maxlength="50000" placeholder="Write in markdown…&#10;&#10;## Steps&#10;1. Open the RAW in Lightroom&#10;2. Match exposure to the reference&#10;&#10;- [ ] Check the server folder&#10;&gt; Tip: keep natural leather texture"></textarea>
+              <div id="hb-preview" class="md hb-preview"></div>
+            </div>
+            <div class="row">
+              <button class="primary" type="submit">Save page</button>
+              <button id="hb-cancel" class="ghost" type="button">Cancel</button>
+              <button id="hb-archive" class="ghost danger" type="button">Archive page</button>
+              <span class="muted small">Markdown: ## heading · **bold** · *italic* · - list · 1. steps · - [ ] checklist · [text](https://link) · `path`</span>
+            </div>
+          </form>
+          <div id="hb-empty" class="empty" hidden>
+            <p>No pages yet. Start the team handbook with how-tos, checklists and things to remember.</p>
+            <button class="primary" type="button" id="hb-new2">+ Write the first page</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <!-- Activity -->
     <section id="view-activity" class="view">
       <div class="seg" id="act-seg">
@@ -255,8 +312,8 @@
 
 <div id="toast" class="toast" hidden></div>
 
-<script src="firebase-config.js?v=2026-11-19.4"></script>
-<script src="data.js?v=2026-11-19.4"></script>
-<script src="app.js?v=2026-11-19.4" defer></script>
+<script src="firebase-config.js?v=2026-11-19.5"></script>
+<script src="data.js?v=2026-11-19.5"></script>
+<script src="app.js?v=2026-11-19.5" defer></script>
 </body>
 </html>
