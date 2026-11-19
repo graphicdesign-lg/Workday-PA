@@ -17,6 +17,7 @@
     <div class="users">
       <button class="user-btn" data-user="drew"><span class="avatar drew">D</span><span><strong>Drew</strong><small>Image editing</small></span></button>
       <button class="user-btn" data-user="kb"><span class="avatar kb">KB</span><span><strong>KB</strong><small>Photographer</small></span></button>
+      <button class="user-btn" data-user="calvin"><span class="avatar calvin">C</span><span><strong>Calvin</strong><small>Web dev</small></span></button>
     </div>
   </div>
 </section>
@@ -73,7 +74,7 @@
         <div class="grid3">
           <label>Name<input id="nt-name" maxlength="200" placeholder="e.g. Castro coffee table — reshoot top view" required></label>
           <label>Stage<select id="nt-stage"></select></label>
-          <label>Assign to<select id="nt-who"><option value="drew">Drew</option><option value="kb">KB</option><option value="none">Unassigned</option></select></label>
+          <label>Assign to<select id="nt-who"><option value="drew">Drew</option><option value="kb">KB</option><option value="calvin">Calvin</option><option value="none">Unassigned</option></select></label>
           <label>Due<input id="nt-due" type="date"></label>
           <label>Priority<select id="nt-pri"><option>Normal</option><option>High</option><option>Low</option></select></label>
         </div>
@@ -89,6 +90,7 @@
           <button class="seg-btn" data-who="me">Mine</button>
           <button class="seg-btn" data-who="drew">Drew</button>
           <button class="seg-btn" data-who="kb">KB</button>
+          <button class="seg-btn" data-who="calvin">Calvin</button>
         </div>
         <label class="inline small"><input type="checkbox" id="board-done"> Show finished</label>
       </div>
@@ -137,7 +139,7 @@
         <label>Exactly what to change<textarea id="todo-text" rows="2" maxlength="2000" placeholder="e.g. Comment to Calvin: Stellan cushions smoothed, files updated on the server"></textarea></label>
         <div class="row">
           <label class="inline">Who
-            <select id="todo-who"><option value="drew">Drew</option><option value="kb">KB</option></select>
+            <select id="todo-who"><option value="drew">Drew</option><option value="kb">KB</option><option value="calvin">Calvin</option></select>
           </label>
           <button type="submit" class="primary">Add</button>
         </div>
@@ -153,7 +155,13 @@
 
     <!-- Messages -->
     <section id="view-messages" class="view chat-view">
-      <div id="thread" class="thread"></div>
+      <div class="chat-layout">
+        <aside id="conv-list" class="conv-list" aria-label="Chats"></aside>
+        <div class="chat-main">
+          <h3 id="conv-title" class="conv-title"></h3>
+          <div id="thread" class="thread"></div>
+        </div>
+      </div>
       <form id="send" class="composer">
         <div id="about" class="about" hidden><span></span><button type="button" aria-label="Remove task link">×</button></div>
         <div class="row nowrap">
@@ -214,7 +222,8 @@
         <p id="d-assign-now" class="small"></p>
         <div class="row">
           <input id="d-assign-note" maxlength="300" placeholder="Hand-over note (optional)">
-          <button id="d-pass" class="primary" type="button"></button>
+          <select id="d-assign-to" aria-label="Pass to"></select>
+          <button id="d-pass" class="primary" type="button">Pass on</button>
           <button id="d-take" class="ghost" type="button">Assign to me</button>
           <button id="d-clear" class="ghost" type="button">Unassign</button>
         </div>

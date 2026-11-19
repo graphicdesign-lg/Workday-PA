@@ -9,7 +9,8 @@ service cloud.firestore {
     function signedIn() { return request.auth != null; }
     function isPA() { return signedIn() && request.auth.uid == 'V3iIMCBjaiPhK9ISVKc6npAdGOD3'; }
     function d() { return request.resource.data; }
-    function person(v) { return v in ['drew', 'kb']; }
+    function person(v) { return v in ['drew', 'kb', 'calvin']; }
+    function convOk() { return !('to' in d()) || d().to == 'team' || (d().to is string && d().to.matches('^dm:(calvin|drew|kb)[+](calvin|drew|kb)$')); }
     function actor(v) { return person(v) || (v == 'pa' && isPA()); }
     function txt(v, max) { return v is string && v.size() > 0 && v.size() <= max; }
     function optTxt(f, max) { return !(f in d()) || d()[f] == null || (d()[f] is string && d()[f].size() <= max); }
@@ -20,9 +21,9 @@ service cloud.firestore {
 
     match /messages/{id} {
       allow read: if signedIn();
-      allow create: if signedIn() && actor(d().author) && txt(d().text, 2000) && stamped()
+      allow create: if signedIn() && actor(d().author) && txt(d().text, 2000) && stamped() && convOk()
         && optTxt('taskId', 100) && optTxt('taskName', 300)
-        && d().keys().hasOnly(['author', 'text', 'at', 'taskId', 'taskName']);
+        && d().keys().hasOnly(['author', 'text', 'at', 'to', 'taskId', 'taskName']);
     }
     match /notes/{id} {
       allow read: if signedIn();

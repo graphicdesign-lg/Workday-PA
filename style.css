@@ -189,6 +189,22 @@ h2.h { margin: 0; font-size: 20px; }
 .lbl input, .lbl select { width: 100%; margin-top: 2px; color: var(--ink); }
 @media (max-width: 640px) { .bgrid { grid-template-columns: 1fr; } .grid3, #new-task .grid3 { grid-template-columns: 1fr 1fr; } }
 
+/* chats */
+.avatar.calvin { background: #3b6fb6; }
+.chip.calvin { background: color-mix(in srgb, #3b6fb6 16%, transparent); color: #3b6fb6; font-weight: 600; }
+.from.calvin { color: #3b6fb6; } .note.calvin { border-color: #3b6fb6; }
+@media (prefers-color-scheme: dark) { .chip.calvin, .from.calvin { color: #8fb4ea; } }
+.chat-layout { display: grid; grid-template-columns: 210px 1fr; gap: 12px; flex: 1; }
+.conv-list { display: flex; flex-direction: column; gap: 4px; position: sticky; top: 0; align-self: start; }
+.conv { text-align: left; border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 7px 10px; cursor: pointer; }
+.conv.active { border-color: var(--accent); background: var(--soft); }
+.conv-top { display: flex; justify-content: space-between; gap: 6px; align-items: center; }
+.conv-name { font-weight: 600; font-size: 13px; }
+.conv-last { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.conv-title { margin: 0 0 4px; font-size: 14px; }
+.chat-main { display: flex; flex-direction: column; min-width: 0; }
+@media (max-width: 640px) { .chat-layout { grid-template-columns: 1fr; } .conv-list { position: static; flex-direction: row; overflow-x: auto; } .conv { min-width: 140px; } }
+
 .toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 10px; font-size: 13px; z-index: 30; max-width: 90vw; }
 
 @media (max-width: 640px) {

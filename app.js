@@ -2,12 +2,19 @@
 // Tasks: live Asana snapshot published by Drew's PA (Firestore asana/snapshot), falling back to data.js.
 // Shared (Firestore): stages + history, assignments, notes, messages, Asana-update to-dos, PA requests.
 // The PA brain (Claude) runs on Drew's PC and answers paRequests. Asana itself is changed via ChatGPT (copy prompts).
-const USERS = { drew: { name: 'Drew', role: 'Image editing' }, kb: { name: 'KB', role: 'Photographer' }, pa: { name: 'PA', role: 'Assistant' } };
+const USERS = { drew: { name: 'Drew', role: 'Image editing' }, kb: { name: 'KB', role: 'Photographer' }, calvin: { name: 'Calvin', role: 'Web dev' }, pa: { name: 'PA', role: 'Assistant' } };
 const STAGES = ['To do', 'To shoot', 'Ready to edit', 'Editing', 'Ready for review', 'Changes requested', 'Approved', 'Ready to upload', 'Uploaded to website', 'Asana updated', 'On hold'];
 const FINISHED = new Set(['Asana updated']);
 const VIEWS = ['pa', 'brief', 'board', 'mine', 'asana', 'messages', 'activity'];
 const PRIORITIES = ['High', 'Normal', 'Low'];
-const other = u => (u === 'drew' ? 'kb' : 'drew');
+const PEOPLE = ['drew', 'kb', 'calvin'];
+const others = u => PEOPLE.filter(p => p !== u);
+// Conversations: "team" group chat, or a private 1-to-1 chat "dm:<a>+<b>" (names sorted).
+const dmKey = (a, b) => 'dm:' + [a, b].sort().join('+');
+const convOf = m => m.to || 'team';
+const inConv = (c, u) => c === 'team' || c.slice(3).split('+').includes(u);
+const convName = c => c === 'team' ? 'Team chat' : c.slice(3).split('+').filter(p => p !== me).map(uname).join(', ');
+let conv = 'team';
 const uname = u => USERS[u]?.name || u || '—';
 const $ = s => document.querySelector(s);
 const store = {
@@ -124,7 +131,6 @@ function setView(v) {
   view = VIEWS.includes(v) ? v : 'pa'; store.set('view', view);
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
   for (const n of VIEWS) $('#view-' + n).hidden = n !== view;
-  if (view === 'messages') markRead('msg');
   if (view === 'pa') markRead('pa');
   renderAll();
   if (view === 'messages' || view === 'pa') scrollThread();
@@ -166,6 +172,7 @@ function metaLine(t) {
 const SUGGEST = {
   drew: ['What should I do next?', 'Summarise what changed today', 'What is waiting on KB?', 'Draft the Asana updates for my finished tasks'],
   kb: ['What do I need to shoot?', 'What changed since yesterday?', 'Which reshoots are open?', 'Tell Drew the shoot is done'],
+  calvin: ['What is ready to upload?', 'What did I upload this week?', 'Which tasks are waiting on me?', 'Mark Stellan as uploaded to website'],
 };
 function paOnline() { return asanaStatus && Date.now() - ts(asanaStatus.at) < 3 * 60000; }
 function renderBrief() {
@@ -173,8 +180,7 @@ function renderBrief() {
   const mine = allTasks().filter(t => assignment(t).assignee === me && !FINISHED.has(stageOf(t).stage));
   const review = allTasks().filter(t => stageOf(t).stage === 'Ready for review');
   const todos = db.asanaTodos.filter(x => !x.done);
-  const seen = store.get('read.msg.' + me, 0);
-  const unread = db.messages.filter(m => m.author !== me && m.at > seen).length;
+  const unread = myConvs().reduce((n, c) => n + unreadIn(c), 0);
   const stat = (n, label, go) => { const s = el('button', 'stat'); s.type = 'button'; s.append(el('b', null, String(n)), el('span', null, label)); s.addEventListener('click', go); return s; };
   b.append(
     stat(mine.length, 'my open tasks', () => setView('mine')),
@@ -190,7 +196,7 @@ function renderPA() {
   const rows = db.paRequests.slice().sort((a, b) => a.at - b.at);
   if (!rows.length) {
     const hello = el('div', 'bubble pa');
-    hello.append(el('div', 'from pa', 'PA'), el('div', null, `Hi ${uname(me)}. I keep track of every task, stage, hand-over and Asana change for you and ${uname(other(me))}. Ask me what to do next, to move a task to a new stage, to pass something on, or to log an Asana update for ChatGPT.`));
+    hello.append(el('div', 'from pa', 'PA'), el('div', null, `Hi ${uname(me)}. I keep track of every task, stage, hand-over and Asana change for you, ${others(me).map(uname).join(' and ')}. Ask me what to do next, to move a task to a new stage, to pass something on, or to log an Asana update for ChatGPT.`));
     th.append(hello);
   }
   let lastDay = '';
@@ -376,7 +382,7 @@ $('#gpt-reply').addEventListener('submit', async e => {
   const TYPES = ['Post a comment', 'Mark complete', 'Reassign', 'Change due date', 'Attach files / folder path', 'Update description', 'Create new task', 'Other'];
   for (const x of (s.followUps || []).slice(0, 30)) {
     if (!x.details) continue; const t = findTask(x.task, x.link);
-    ops.push({ op: 'add', col: 'asanaTodos', data: { type: TYPES.includes(x.type) ? x.type : 'Other', text: String(x.details).slice(0, 1900), taskId: t?.id || null, taskName: t?.name || x.task || null, who: x.who === 'kb' ? 'kb' : 'drew', author: me, done: false } });
+    ops.push({ op: 'add', col: 'asanaTodos', data: { type: TYPES.includes(x.type) ? x.type : 'Other', text: String(x.details).slice(0, 1900), taskId: t?.id || null, taskName: t?.name || x.task || null, who: PEOPLE.includes(x.who) ? x.who : 'drew', author: me, done: false } });
   }
   if (s.followUps?.length) summary.push(`${s.followUps.length} follow-up${s.followUps.length > 1 ? 's' : ''} added`);
   if (!ops.length) return toast(r.syncError ? 'The workday-pa-sync block could not be read — ask ChatGPT to resend it as valid JSON.' : 'Nothing new to apply (no ✅ items or sync block found).');
@@ -417,11 +423,29 @@ function renderTodos() {
 /* ---------- messages ---------- */
 function setMsgAbout(t) { msgAbout = t ? { id: t.id, name: t.name } : null; $('#about').hidden = !msgAbout; if (msgAbout) $('#about span').textContent = 'About: ' + msgAbout.name; }
 $('#about button').addEventListener('click', () => setMsgAbout(null));
+const readKey = c => `read.conv.${c}.${me}`;
+function unreadIn(c) { const seen = store.get(readKey(c), c === 'team' ? store.get('read.msg.' + me, 0) : 0); return db.messages.filter(m => convOf(m) === c && m.author !== me && m.at > seen).length; }
+function myConvs() { return ['team', ...others(me).map(p => dmKey(me, p))]; }
+function openConv(c) { conv = c; store.set('conv.' + me, c); store.set(readKey(c), Date.now()); renderMessages(); updateCounts(); $('#msg').focus(); }
 function renderMessages() {
+  if (!inConv(conv, me)) conv = 'team';
+  store.set(readKey(conv), Date.now());
+  const list = $('#conv-list'); list.replaceChildren();
+  for (const c of myConvs()) {
+    const n = unreadIn(c), last = db.messages.filter(m => convOf(m) === c).at(-1);
+    const b = el('button', 'conv' + (c === conv ? ' active' : '')); b.type = 'button';
+    const top = el('div', 'conv-top'); top.append(el('span', 'conv-name', (c === 'team' ? '# ' : '🔒 ') + convName(c)));
+    if (n) top.append(el('span', 'badge', String(n)));
+    b.append(top, el('div', 'conv-last', last ? `${uname(last.author)}: ${last.text.slice(0, 50)}` : (c === 'team' ? 'Everyone' : 'Private chat')));
+    b.addEventListener('click', () => openConv(c)); list.append(b);
+  }
+  $('#conv-title').textContent = conv === 'team' ? 'Team chat — Drew, KB, Calvin' : 'Private chat with ' + convName(conv);
+  $('#msg').placeholder = conv === 'team' ? 'Message the team…' : 'Message ' + convName(conv) + ' privately…';
   const th = $('#thread'); th.replaceChildren();
-  if (!db.messages.length) th.append(el('div', 'empty', 'No messages yet. Say hi to the team.'));
+  const msgs = db.messages.filter(m => convOf(m) === conv).sort((a, b) => a.at - b.at);
+  if (!msgs.length) th.append(el('div', 'empty', conv === 'team' ? 'No messages yet. Say hi to the team.' : 'No messages yet.'));
   let lastDay = '';
-  for (const m of db.messages.slice().sort((a, b) => a.at - b.at)) {
+  for (const m of msgs) {
     const day = dayOf(m.at); if (day !== lastDay) { th.append(el('div', 'day', day)); lastDay = day; }
     const b = el('div', 'bubble' + (m.author === me ? ' mine' : m.author === 'pa' ? ' pa' : ''));
     const f = el('div', 'from ' + m.author, uname(m.author)); f.append(el('span', 'when', fmt(m.at))); b.append(f);
@@ -432,7 +456,7 @@ function renderMessages() {
 $('#send').addEventListener('submit', async e => {
   e.preventDefault(); const ta = $('#msg'); const text = ta.value.trim(); if (!text) return;
   ta.disabled = true;
-  try { await backend.add('messages', { author: me, text, taskId: msgAbout?.id || null, taskName: msgAbout?.name || null }); ta.value = ''; setMsgAbout(null); }
+  try { await backend.add('messages', { author: me, text, to: conv, taskId: msgAbout?.id || null, taskName: msgAbout?.name || null }); ta.value = ''; setMsgAbout(null); }
   catch (err) { toast('Could not send: ' + err.message); } finally { ta.disabled = false; ta.focus(); }
 });
 $('#msg').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('#send').requestSubmit(); } });
@@ -475,7 +499,7 @@ function renderBriefView() {
   const body = $('#brief-body'); body.replaceChildren();
   const open = allTasks().filter(t => !FINISHED.has(stageOf(t).stage));
   const mine = open.filter(t => assignment(t).assignee === me).sort((a, b) => PRIORITIES.indexOf(a.priority) - PRIORITIES.indexOf(b.priority) || (a.queuePos || 999) - (b.queuePos || 999));
-  const theirs = open.filter(t => assignment(t).assignee === other(me));
+  const theirs = open.filter(t => others(me).includes(assignment(t).assignee));
   const since = Date.now() - 24 * 3600e3;
   const label = t => t.name + ` — ${stageOf(t).stage}` + (t.due ? `, due ${t.due}` : '');
   // headline
@@ -488,7 +512,7 @@ function renderBriefView() {
   grid.append(
     bar,
     bcard('Your next tasks', mine.slice(0, 8).map(t => ({ text: label(t), taskId: t.id })), { count: mine.length, empty: 'Nothing assigned to you.' }),
-    bcard(`${uname(other(me))} is working on`, theirs.slice(0, 8).map(t => ({ text: label(t), taskId: t.id })), { count: theirs.length }),
+    bcard('The team is working on', theirs.slice(0, 10).map(t => ({ text: uname(assignment(t).assignee) + ': ' + label(t), taskId: t.id })), { count: theirs.length }),
     bcard('Needs attention', [
       ...open.filter(t => { const d = daysTo(t.due); return d != null && d <= 2; }).map(t => ({ text: '⏰ ' + label(t), taskId: t.id })),
       ...open.filter(t => stageOf(t).stage === 'Changes requested').map(t => ({ text: '↩ Changes requested: ' + t.name, taskId: t.id })),
@@ -545,8 +569,8 @@ function renderDrawer() {
   for (const x of log) hist.append(el('li', null, `${fmt(x.at)} · ${uname(x.by)}: ${x.from ? x.from + ' → ' : ''}${x.stage}${x.note ? ' — “' + x.note + '”' : ''}`));
   const a = assignment(t);
   $('#d-assign-now').textContent = a.assignee === 'none' ? 'Not assigned yet.' : `Assigned to ${uname(a.assignee)}` + (a.implicit ? ' (in Drew’s queue)' : ` by ${uname(a.by)} · ${fmt(a.at)}`) + (a.note ? ` — “${a.note}”` : '');
-  const target = other(me);
-  $('#d-pass').textContent = 'Pass to ' + uname(target); $('#d-pass').hidden = a.assignee === target;
+  const sel2 = $('#d-assign-to');
+  if (renderDrawer.lastAssign !== t.id + a.assignee) { sel2.replaceChildren(...others(me).filter(p => p !== a.assignee).map(p => { const o = document.createElement('option'); o.value = p; o.textContent = uname(p) + ' (' + USERS[p].role + ')'; return o; })); renderDrawer.lastAssign = t.id + a.assignee; }
   $('#d-take').hidden = a.assignee === me; $('#d-clear').hidden = a.assignee === 'none';
   const link = $('#d-link'); link.hidden = !t.url; if (t.url) link.href = t.url;
   $('#d-pa-sec').hidden = !t.notes; $('#d-pa-notes').textContent = t.notes || '';
@@ -564,7 +588,7 @@ $('#d-save').addEventListener('click', withTask(async t => {
   renderDrawer.last = null; toast(changed ? 'Saved.' + ($('#d-asana-rename').checked && t.kind === 'asana' ? ' Asana change logged for ChatGPT.' : '') : 'Nothing changed.');
 }));
 $('#d-stage-save').addEventListener('click', withTask(async t => { await setStage(t, sel.value, $('#d-stage-note').value.trim()); $('#d-stage-note').value = ''; toast('Stage updated: ' + sel.value); }));
-$('#d-pass').addEventListener('click', withTask(async t => { await assign(t, other(me), $('#d-assign-note').value.trim()); $('#d-assign-note').value = ''; toast('Passed to ' + uname(other(me))); }));
+$('#d-pass').addEventListener('click', withTask(async t => { const to = $('#d-assign-to').value; if (!to) return; await assign(t, to, $('#d-assign-note').value.trim()); $('#d-assign-note').value = ''; toast('Passed to ' + uname(to)); }));
 $('#d-take').addEventListener('click', withTask(async t => { await assign(t, me, $('#d-assign-note').value.trim()); $('#d-assign-note').value = ''; }));
 $('#d-clear').addEventListener('click', withTask(async t => { await assign(t, 'none', $('#d-assign-note').value.trim()); $('#d-assign-note').value = ''; }));
 $('#d-ask').addEventListener('click', () => { const t = taskById(drawerTask); closeDrawer(); setPaAbout(t); setView('pa'); $('#pa-input').focus(); });
@@ -580,8 +604,8 @@ function markRead(k) { if (me) store.set(`read.${k}.${me}`, Date.now()); updateC
 function badge(id, n) { const b = $(id); b.hidden = !n; b.textContent = n; }
 function updateCounts() {
   if (!me) return;
-  const seenM = store.get('read.msg.' + me, 0), seenP = store.get('read.pa.' + me, 0);
-  const unread = view === 'messages' ? 0 : db.messages.filter(m => m.author !== me && m.at > seenM).length;
+  const seenP = store.get('read.pa.' + me, 0);
+  const unread = myConvs().reduce((n, c) => n + (view === 'messages' && c === conv ? 0 : unreadIn(c)), 0);
   const paNew = view === 'pa' ? 0 : db.paRequests.filter(r => r.status === 'done' && (r.repliedAt || 0) > seenP && r.author === me).length;
   badge('#c-unread', unread);
   badge('#c-mine', allTasks().filter(t => assignment(t).assignee === me && !FINISHED.has(stageOf(t).stage)).length);
@@ -638,24 +662,14 @@ async function firebaseBackend(cfg) {
   const fdb = fs.getFirestore(app);
   const toMs = v => (v?.toMillis ? v.toMillis() : v == null ? null : Date.now());
   const rows = snap => snap.docs.map(d => { const x = d.data(); return { ...x, id: d.id, at: toMs(x.at) || Date.now(), doneAt: toMs(x.doneAt), repliedAt: toMs(x.repliedAt) }; });
-  let firstMsg = true, firstPa = true;
-  const notify = (title, body) => { if (document.hidden && 'Notification' in window && Notification.permission === 'granted') new Notification(title, { body: body.slice(0, 140) }); };
+  // No pop-up/browser notifications: unread counts and the tab title are the only signals.
   const listen = (name, n, after) => fs.onSnapshot(fs.query(fs.collection(fdb, name), fs.orderBy('at', 'asc'), fs.limitToLast(n)),
     snap => { const prev = db[name]; db[name] = rows(snap); after?.(prev); renderAll(); },
     err => banner('Sync error (' + name + '): ' + err.message));
   listen('notes', 1000); listen('assignments', 1000); listen('asanaTodos', 500); listen('stages', 1000); listen('stageLog', 600);
   listen('taskEdits', 1000); listen('customTasks', 500); listen('log', 600);
-  listen('messages', 500, prev => {
-    if (view === 'messages') markRead('msg');
-    const last = db.messages[db.messages.length - 1];
-    if (!firstMsg && last && last.author !== me && !prev.some(p => p.id === last.id)) notify('Workday PA · ' + uname(last.author), last.text);
-    firstMsg = false;
-  });
-  listen('paRequests', 150, prev => {
-    if (view === 'pa') { markRead('pa'); scrollThread(); }
-    for (const r of db.paRequests) { const p = prev.find(x => x.id === r.id); if (!firstPa && p && p.status !== 'done' && r.status === 'done' && r.author === me) notify('Workday PA answered', r.reply || ''); }
-    firstPa = false;
-  });
+  listen('messages', 800, () => { if (view === 'messages') scrollThread(); });
+  listen('paRequests', 150, () => { if (view === 'pa') { markRead('pa'); scrollThread(); } });
   fs.onSnapshot(fs.doc(fdb, 'asana', 'snapshot'), d => {
     if (!d.exists()) return;
     try { const x = d.data(); const j = JSON.parse(x.json); j.publishedAt = toMs(x.at); data = j; dataSource = 'live'; fillTaskNames(); renderAll(); } catch {}
@@ -684,8 +698,8 @@ async function start() {
   if (!me || !USERS[me] || me === 'pa') return showPicker();
   $('#pick').hidden = true; $('#app').hidden = false;
   $('#who').textContent = uname(me) + ' · ' + USERS[me].role + ' ▾';
-  $('#msg').placeholder = 'Message ' + uname(other(me)) + '…';
   $('#todo-who').value = me;
+  conv = store.get('conv.' + me, 'team'); if (!inConv(conv, me)) conv = 'team';
   if (started) return setView(view);
   started = true;
   fillTaskNames();
@@ -698,6 +712,5 @@ async function start() {
     banner('Shared sync is not set up: changes are saved in this browser only.');
   }
   setView(view);
-  if ('Notification' in window && Notification.permission === 'default') document.addEventListener('click', () => Notification.requestPermission(), { once: true });
 }
 start();
