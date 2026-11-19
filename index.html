@@ -8,9 +8,10 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- Step 1: choose who you are -->
+<!-- Select your user -->
 <section id="pick" class="pick" hidden>
   <div class="pick-card">
+    <div class="logo">PA</div>
     <h1>Workday PA</h1>
     <p class="muted">Select your user</p>
     <div class="users">
@@ -20,135 +21,228 @@
   </div>
 </section>
 
-<!-- Main app -->
 <div id="app" hidden>
   <header class="top">
-    <div class="brand">Workday PA</div>
-    <nav class="tabs">
-      <button class="tab active" data-view="mine">My tasks <span id="mine-count" class="badge soft" hidden></span></button>
-      <button class="tab" data-view="tasks">All tasks</button>
-      <button class="tab" data-view="asana">Asana updates <span id="asana-count" class="badge soft" hidden></span></button>
-      <button class="tab" data-view="messages">Messages <span id="unread" class="badge" hidden></span></button>
-    </nav>
+    <div class="brand"><span class="logo sm">PA</span><span>Workday PA</span></div>
+    <div class="pills">
+      <span id="pill-asana" class="pill" title="Asana data"><i></i><span>Asana</span></span>
+      <span id="pill-pa" class="pill" title="PA brain (Claude on Drew's PC)"><i></i><span>PA</span></span>
+    </div>
     <button id="who" class="who" title="Switch user"></button>
   </header>
-
+  <nav class="tabs" role="tablist">
+    <button class="tab" data-view="pa">✦ PA</button>
+    <button class="tab" data-view="brief">Brief</button>
+    <button class="tab" data-view="board">Board</button>
+    <button class="tab" data-view="mine">My work <span id="c-mine" class="badge soft" hidden></span></button>
+    <button class="tab" data-view="asana">Asana updates <span id="c-asana" class="badge soft" hidden></span></button>
+    <button class="tab" data-view="messages">Messages <span id="c-unread" class="badge" hidden></span></button>
+    <button class="tab" data-view="activity">History</button>
+  </nav>
   <div id="banner" class="banner" hidden></div>
 
   <main>
-    <!-- My tasks -->
+    <!-- PA -->
+    <section id="view-pa" class="view pa-view">
+      <div class="brief" id="brief"></div>
+      <div id="pa-thread" class="thread"></div>
+      <form id="pa-form" class="composer">
+        <div class="chips" id="pa-chips"></div>
+        <div id="pa-about" class="about" hidden><span></span><button type="button" aria-label="Remove task link">×</button></div>
+        <div class="row nowrap">
+          <textarea id="pa-input" rows="1" maxlength="2000" placeholder="Ask your PA — e.g. “What should I do next?” or “Move Stellan to Ready for review”"></textarea>
+          <button type="submit" class="primary">Ask</button>
+        </div>
+        <p id="pa-note" class="muted small"></p>
+      </form>
+    </section>
+
+    <!-- Brief -->
+    <section id="view-brief" class="view">
+      <div class="brief-head">
+        <div><h2 id="brief-title" class="h"></h2><p id="brief-sub" class="muted small"></p></div>
+        <button id="brief-ask" class="primary" type="button">✦ Ask PA for a written brief</button>
+      </div>
+      <div id="brief-body"></div>
+    </section>
+
+    <!-- Board -->
+    <section id="view-board" class="view wide">
+      <form id="new-task" class="card new-task" hidden>
+        <h3>New task</h3>
+        <div class="grid3">
+          <label>Name<input id="nt-name" maxlength="200" placeholder="e.g. Castro coffee table — reshoot top view" required></label>
+          <label>Stage<select id="nt-stage"></select></label>
+          <label>Assign to<select id="nt-who"><option value="drew">Drew</option><option value="kb">KB</option><option value="none">Unassigned</option></select></label>
+          <label>Due<input id="nt-due" type="date"></label>
+          <label>Priority<select id="nt-pri"><option>Normal</option><option>High</option><option>Low</option></select></label>
+        </div>
+        <label>Details<textarea id="nt-desc" rows="2" maxlength="2000" placeholder="What needs doing, colour, folder, notes…"></textarea></label>
+        <label class="inline small"><input type="checkbox" id="nt-asana"> Also log “Create this task in Asana” for ChatGPT</label>
+        <div class="row"><button class="primary" type="submit">Create task</button><button class="ghost" type="button" id="nt-cancel">Cancel</button></div>
+      </form>
+      <div class="toolbar">
+        <button id="nt-open" class="primary" type="button">+ New task</button>
+        <input id="search" type="search" placeholder="Search tasks, colours, notes…" autocomplete="off">
+        <div class="seg" id="board-who">
+          <button class="seg-btn active" data-who="all">Everyone</button>
+          <button class="seg-btn" data-who="me">Mine</button>
+          <button class="seg-btn" data-who="drew">Drew</button>
+          <button class="seg-btn" data-who="kb">KB</button>
+        </div>
+        <label class="inline small"><input type="checkbox" id="board-done"> Show finished</label>
+      </div>
+      <div id="board" class="board"></div>
+    </section>
+
+    <!-- My work -->
     <section id="view-mine" class="view">
-      <div class="seg" role="tablist">
+      <div class="seg" id="mine-seg">
         <button class="seg-btn active" data-mine="to">Assigned to me</button>
         <button class="seg-btn" data-mine="by">I passed on</button>
         <button class="seg-btn" data-mine="none">Unassigned</button>
       </div>
-      <p id="mine-hint" class="muted small"></p>
-      <ul id="mine-list" class="list"></ul>
+      <div id="mine-list"></div>
     </section>
 
-    <!-- All tasks -->
-    <section id="view-tasks" class="view" hidden>
-      <div class="toolbar">
-        <input id="search" type="search" placeholder="Search tasks, colours, notes…" autocomplete="off">
-        <span id="snapshot" class="muted small"></span>
+    <!-- Asana updates -->
+    <section id="view-asana" class="view">
+      <div class="card gpt">
+        <div>
+          <h3>Asana updates via ChatGPT</h3>
+          <p class="muted small">Things that must change in Asana. Copy them for ChatGPT (with the Asana app connected), let it make the changes, then tick them off here.</p>
+        </div>
+        <div class="row">
+          <button id="gpt-all" class="primary" type="button">Copy all open for ChatGPT</button>
+          <a class="ghost" href="https://chatgpt.com/" target="_blank" rel="noopener">Open ChatGPT ↗</a>
+        </div>
       </div>
-      <p id="focus" class="focus" hidden></p>
-      <h2>Priority queue</h2>
-      <ol id="queue" class="list"></ol>
-      <h2>Team tasks in Asana</h2>
-      <ul id="team" class="list"></ul>
-    </section>
-
-    <!-- Asana manual updates -->
-    <section id="view-asana" class="view" hidden>
+      <form id="gpt-reply" class="card">
+        <h3>Paste ChatGPT's reply</h3>
+        <p class="muted small">After ChatGPT finishes, paste its ✅ / ❌ list here. Items marked ✅ are ticked off automatically; ❌ ones stay open.</p>
+        <textarea id="gpt-reply-text" rows="3" maxlength="20000" placeholder="✅ 1. Stellan … — comment posted — https://app.asana.com/…"></textarea>
+        <div class="row"><button class="primary" type="submit">Tick off done items</button><span id="gpt-batch-info" class="muted small"></span></div>
+      </form>
       <form id="todo-form" class="card">
-        <h3>Something to update in Asana</h3>
+        <h3>Add an Asana update</h3>
         <div class="grid2">
           <label>Type
             <select id="todo-type">
-              <option>Post a comment</option>
-              <option>Mark complete</option>
-              <option>Reassign</option>
-              <option>Change due date</option>
-              <option>Attach files / folder path</option>
-              <option>Update description</option>
-              <option>Create new task</option>
-              <option>Other</option>
+              <option>Post a comment</option><option>Mark complete</option><option>Reassign</option><option>Change due date</option>
+              <option>Attach files / folder path</option><option>Update description</option><option>Create new task</option><option>Other</option>
             </select>
           </label>
-          <label>Task (optional)
-            <input id="todo-task" list="task-names" placeholder="Start typing a task name…" autocomplete="off">
-          </label>
+          <label>Task (optional)<input id="todo-task" list="task-names" placeholder="Start typing a task name…" autocomplete="off"></label>
         </div>
-        <label>What exactly needs to change
-          <textarea id="todo-text" rows="2" maxlength="2000" placeholder="e.g. Comment to Calvin: Stellan cushions smoothed, new files in the server folder"></textarea>
-        </label>
+        <label>Exactly what to change<textarea id="todo-text" rows="2" maxlength="2000" placeholder="e.g. Comment to Calvin: Stellan cushions smoothed, files updated on the server"></textarea></label>
         <div class="row">
-          <label class="inline">Who will do it
+          <label class="inline">Who
             <select id="todo-who"><option value="drew">Drew</option><option value="kb">KB</option></select>
           </label>
-          <button type="submit" class="primary">Add to list</button>
+          <button type="submit" class="primary">Add</button>
         </div>
         <datalist id="task-names"></datalist>
       </form>
-      <div class="seg">
+      <div class="seg" id="todo-seg">
         <button class="seg-btn active" data-todo="open">To do</button>
-        <button class="seg-btn" data-todo="mine">Mine to do</button>
+        <button class="seg-btn" data-todo="mine">Mine</button>
         <button class="seg-btn" data-todo="done">Done</button>
       </div>
       <ul id="todo-list" class="list"></ul>
     </section>
 
     <!-- Messages -->
-    <section id="view-messages" class="view" hidden>
+    <section id="view-messages" class="view chat-view">
       <div id="thread" class="thread"></div>
       <form id="send" class="composer">
-        <div id="about" class="about" hidden><span></span><button type="button" id="about-clear" aria-label="Remove task link">×</button></div>
-        <div class="row">
+        <div id="about" class="about" hidden><span></span><button type="button" aria-label="Remove task link">×</button></div>
+        <div class="row nowrap">
           <textarea id="msg" rows="1" maxlength="2000" placeholder="Message the team…"></textarea>
           <button type="submit" class="primary">Send</button>
         </div>
       </form>
     </section>
+
+    <!-- Activity -->
+    <section id="view-activity" class="view">
+      <div class="seg" id="act-seg">
+        <button class="seg-btn active" data-act="all">Everything</button>
+        <button class="seg-btn" data-act="asana">Asana (live)</button>
+        <button class="seg-btn" data-act="team">Team board</button>      </div>
+      <ul id="activity" class="timeline"></ul>
+    </section>
   </main>
 </div>
 
-<template id="task-tpl">
-  <li class="task">
-    <button class="task-head" type="button">
-      <span class="pos"></span>
-      <span class="title"></span>
-      <span class="meta"></span>
-      <span class="chips"><span class="assignee"></span><span class="count" hidden></span></span>
-    </button>
-    <div class="task-body" hidden>
-      <div class="assign-box">
-        <span class="assign-now"></span>
-        <div class="row">
-          <input class="assign-note" maxlength="300" placeholder="Hand-over note (optional)">
-          <button type="button" class="primary assign-pass"></button>
-          <button type="button" class="ghost assign-take"></button>
-          <button type="button" class="ghost assign-clear">Unassign</button>
-        </div>
+<!-- Task drawer -->
+<div id="drawer-wrap" class="drawer-wrap" hidden>
+  <div class="drawer-bg"></div>
+  <aside id="drawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="d-title">
+    <header class="d-head">
+      <div>
+        <div id="d-kind" class="muted small"></div>
+        <h2 id="d-title"></h2>
+        <div id="d-meta" class="muted small"></div>
       </div>
-      <p class="pa-notes"></p>
-      <p class="desc"></p>
-      <div class="comments"></div>
-      <h4>Shared notes</h4>
-      <div class="notes"></div>
-      <form class="note-form">
-        <textarea rows="2" maxlength="2000" placeholder="Add a note for Drew and KB…"></textarea>
-        <div class="row">
-          <button type="submit" class="primary">Add note</button>
-          <button type="button" class="ghost msg-about">Message about this</button>
-          <button type="button" class="ghost todo-about">+ Asana update</button>
-          <a class="ghost asana-link" target="_blank" rel="noopener" hidden>Open in Asana ↗</a>
+      <button id="d-close" class="icon" aria-label="Close">×</button>
+    </header>
+    <div class="d-body">
+      <section class="d-sec">
+        <h4>Details</h4>
+        <div class="grid3">
+          <label class="lbl">Name<input id="d-name" maxlength="200"></label>
+          <label class="lbl">Due<input id="d-due" type="date"></label>
+          <label class="lbl">Priority<select id="d-pri"><option>Normal</option><option>High</option><option>Low</option></select></label>
         </div>
-      </form>
+        <div class="row">
+          <label class="inline small" id="d-asana-rename-wrap"><input type="checkbox" id="d-asana-rename"> Also log the change in Asana updates (for ChatGPT)</label>
+          <button id="d-save" class="primary" type="button">Save details</button>
+          <span id="d-orig" class="muted small"></span>
+        </div>
+      </section>
+      <section class="d-sec">
+        <h4>Stage</h4>
+        <div class="stage-row">
+          <select id="d-stage"></select>
+          <input id="d-stage-note" maxlength="500" placeholder="What was done? (optional)">
+          <button id="d-stage-save" class="primary" type="button">Update</button>
+        </div>
+        <ol id="d-stages" class="mini-timeline"></ol>
+      </section>
+      <section class="d-sec">
+        <h4>Assigned</h4>
+        <p id="d-assign-now" class="small"></p>
+        <div class="row">
+          <input id="d-assign-note" maxlength="300" placeholder="Hand-over note (optional)">
+          <button id="d-pass" class="primary" type="button"></button>
+          <button id="d-take" class="ghost" type="button">Assign to me</button>
+          <button id="d-clear" class="ghost" type="button">Unassign</button>
+        </div>
+      </section>
+      <section class="d-sec">
+        <div class="row">
+          <button id="d-ask" class="ghost" type="button">✦ Ask PA about this</button>
+          <button id="d-msg" class="ghost" type="button">Message about this</button>
+          <button id="d-todo" class="ghost" type="button">+ Asana update</button>
+          <a id="d-link" class="ghost" target="_blank" rel="noopener" hidden>Open in Asana ↗</a>
+        </div>
+      </section>
+      <section class="d-sec" id="d-pa-sec"><h4>Drew's plan notes</h4><p id="d-pa-notes" class="boxed pre"></p></section>
+      <section class="d-sec" id="d-desc-sec"><h4>Asana description</h4><p id="d-desc" class="pre muted small"></p></section>
+      <section class="d-sec" id="d-com-sec"><h4>Latest Asana comments</h4><div id="d-comments"></div></section>
+      <section class="d-sec">
+        <h4>Shared notes</h4>
+        <div id="d-notes"></div>
+        <form id="d-note-form">
+          <textarea rows="2" maxlength="2000" placeholder="Add a note for the team…"></textarea>
+          <div class="row"><button class="primary" type="submit">Add note</button></div>
+        </form>
+      </section>
     </div>
-  </li>
-</template>
+  </aside>
+</div>
+
+<div id="toast" class="toast" hidden></div>
 
 <script src="firebase-config.js"></script>
 <script src="data.js"></script>

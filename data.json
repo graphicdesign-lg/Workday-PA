@@ -1,19 +1,19 @@
 {
- "exportedAt": "2026-11-19T08:13:35.764Z",
+ "exportedAt": "2026-11-19T09:21:42.916Z",
  "focus": "STELLAN-MIDNIGHT BROWN-3S",
  "queue": [
   {
    "id": "1216919347390739",
    "kind": "asana",
    "name": "STELLAN-MIDNIGHT BROWN-3S",
-   "owner": "Calvin",
+   "owner": "Drew Leather Gallery",
    "stage": "In progress",
    "due": null,
    "queuePos": 1,
    "notes": "",
-   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Stellan 3 Seater Leather Couch\n\nPrevious record and product information\nStatus: Photography complete — Karabo confirmed all 26 new Stattera products photographed on 11 November 2026. This is the confirmation date; individual shoot date not supplied. Batch editing has started; this product's editing completion is not yet confirmed.\nNext: Edit, match colour reference, self-check and record final folder. Bronwyn reviews; Calvin handles website images.\nReference: https://leathergallery.co.za/products/stellan-3-seater-leather-",
+   "description": "Current review — 19 November 2026\nStatus: Check creases in the Stellan images. Revised photos were loaded by Drew in the 0.2 folder; crease check remains requested.\nNext: Drew to check remaining creases, particularly the left back cushion flagged by Calvin, and correct where needed. Return for checking before Calvin updates the website.\nLatest revised folder: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Stellan 3 Seater Leather Couch\\0.2\n\nCurrent update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Stellan 3 Seater Leather Couch\n\nPrevious record and product information\nStatus: Photo",
    "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390739",
-   "modifiedAt": "2026-11-19T08:10:17.609Z",
+   "modifiedAt": "2026-11-19T08:43:43.347Z",
    "comments": [
     {
      "by": "Drew Leather Gallery",
@@ -29,6 +29,11 @@
      "by": "Drew Leather Gallery",
      "at": "2026-11-19T08:10:17.609Z",
      "text": "@mention @mention\n\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Stellan 3 Seater Leather Couch\\0.2\n\nPlease see the updated photos loaded on the server"
+    },
+    {
+     "by": "Karabo",
+     "at": "2026-11-19T08:43:43.347Z",
+     "text": "https://app.asana.com/0/1220462430883485/ Please check the creases on the Stellan, including the left back cushion Calvin flagged. Please check the latest photos in the 0.2 folder and tidy up any remaining creases where needed, keeping the leather texture natural. Let me know when they can be checked again."
     }
    ]
   },
@@ -525,6 +530,136 @@
  ],
  "team": [
   {
+   "id": "1216919347390742",
+   "kind": "asana",
+   "name": "VALEN-MIDNIGHT BROWN-2S",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Valen Leather Couch - Midnight Brown\n\nPrevious record and product information\nStatus: Photographed, reported by Karabo on 10 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder. Bronwyn reviews; Calvin handles website images.\nReference: https://leathergallery.co.za/products/valen-leather-couch\n\nProduct information\nSUPPLIER INFORMATION\nSUPPLIER NAME\n \n \n \nPRODUCT CODE\n \nVALEN-MIDNIGHT BROWN-2S\nVALEN-ONYX BLACK-2S\n \n\n \n\nPRODUCT INFORMATION\nPRODUCT NAME\n \n \nVALEN LEATHER COUCH\n",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390742",
+   "modifiedAt": "2026-11-19T08:58:25.446Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-13T07:57:05.640Z",
+     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Valen Leather Couch - Midnight Brown\n\nImages edited and on the server \n\n@mention @mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-19T08:58:25.445Z",
+     "text": "This is Done"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390762",
+   "kind": "asana",
+   "name": "ASTOR-VINTAGE COGNAC-CHAIR",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Astor Leather Chair — Vintage Cognac\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Astor Leather Chair — Vintage Cognac\\\n\nStatus: Photography complete — Karabo confirmed all 26 new Stattera products photographed on 11 November 2026. This is the confirmation date; individual shoot date not supplied. Batch editing has started; this product's editing completion is not yet confirmed.\nNext: Edit, match colour reference, self-check and record final folder. Bronwyn reviews; Calvi",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390762",
+   "modifiedAt": "2026-11-19T08:53:41.311Z",
+   "comments": [
+    {
+     "by": "Calvin",
+     "at": "2026-11-19T08:53:41.310Z",
+     "text": "Hi Team \nThis was uploaded \nThank you"
+    }
+   ]
+  },
+  {
+   "id": "1216919347390751",
+   "kind": "asana",
+   "name": "TENOR-DEEP RUSSET-1S",
+   "owner": "Calvin",
+   "stage": null,
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\OCCASIONAL\\Tenor Leather Armchair - Deep Russet\n\nPrevious record and product information\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/tenor-leather-armchair\n\nProduct information\nSUPPLIER NAME\n \nPRODUCT CODE\nTENOR-DEEP RUSSET-1S\nTENOR-STONE BEIGE-1S\n \n\n \n\nPRODUCT INFORMATION\nPRODUCT NAME\nTENOR LEATHER ARMCHAIR\nTENOR FABRIC ",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390751",
+   "modifiedAt": "2026-11-19T08:48:48.388Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-13T08:27:38.647Z",
+     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Tenor Leather Armchair - Deep Russet\n\nPhotos edited and uploaded to the server \n\n@mention @mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-19T08:48:48.388Z",
+     "text": "Hi Team \nThis is done \nUploaded"
+    }
+   ]
+  },
+  {
+   "id": "1220569062602388",
+   "kind": "asana",
+   "name": "Castro Coffee Table — Natural",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "",
+   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table - Nutral\n\nPrevious record and product information\nProduct: Castro Coffee Table — Natural\nProduct code: CASTRO-NATURAL-COFFEE TABLE\nStatus: Photographed 16 November 2026. Editing in progress with Drew.\nNext: Edit, self-check and record final folder.\nHandover: Bronwyn for review when ready; Calvin for website upload.\nEditing deadline: To agree.",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1220569062602388",
+   "modifiedAt": "2026-11-19T08:35:14.813Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-17T08:03:59.508Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table - Nutral\n\nPhotos edited and uploaded \n\n@mention@mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-19T08:35:14.813Z",
+     "text": "Hi Team \nWaiting for pricing all on draft"
+    }
+   ]
+  },
+  {
+   "id": "1220565410850646",
+   "kind": "asana",
+   "name": "Palazzo Coffee Table — Marble",
+   "owner": "Calvin",
+   "stage": "Done — my work",
+   "due": null,
+   "queuePos": null,
+   "notes": "Corrected images uploaded and recorded in Asana on 18 November 2026.",
+   "description": "Current correction update — 18 November 2026\nIn progress with Drew: lighten the darker angle to match the other angles. Next: finish correction, self-check, upload and request Calvin's review.\n\nEarlier record\nCurrent update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Palazzo Coffee Table\n\nPrevious record and product information\nProduct: Palazzo Coffee Table — Marble\nProduct code: PALAZZO-MARBLE-COFFEE TABLE\nStatus: Photographed 16 November 2026. Editing in progress with Drew.\nNext: Edit, self-check and record final folder.\nHandover: Bronwyn for review when ready; C",
+   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1220565410850646",
+   "modifiedAt": "2026-11-19T08:29:40.924Z",
+   "comments": [
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-16T14:42:07.364Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table\n\nPhotos edited and uploaded \n\n@mention@mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-17T07:08:29.595Z",
+     "text": "Hi Drew \n\nThis angle looks darker \ncan you help make it lighter to match the other angles \n\nhttps://app.asana.com/app/asana/-/get_asset?asset_id=1220598806581318\n"
+    },
+    {
+     "by": "Drew Leather Gallery",
+     "at": "2026-11-18T06:29:01.444Z",
+     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Palazzo Coffee Table\n\nthe photos for the table have been edited as requested and are uploaded in the server \n\n@mention @mention"
+    },
+    {
+     "by": "Calvin",
+     "at": "2026-11-19T08:29:40.923Z",
+     "text": "Hi Team \nWaiting for pricing"
+    }
+   ]
+  },
+  {
    "id": "1220343000479104",
    "kind": "asana",
    "name": "Sorano King XL Leather Bed",
@@ -670,36 +805,6 @@
    ]
   },
   {
-   "id": "1220565410850646",
-   "kind": "asana",
-   "name": "Palazzo Coffee Table — Marble",
-   "owner": "Calvin",
-   "stage": "Done — my work",
-   "due": null,
-   "queuePos": null,
-   "notes": "Corrected images uploaded and recorded in Asana on 18 November 2026.",
-   "description": "Current correction update — 18 November 2026\nIn progress with Drew: lighten the darker angle to match the other angles. Next: finish correction, self-check, upload and request Calvin's review.\n\nEarlier record\nCurrent update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Palazzo Coffee Table\n\nPrevious record and product information\nProduct: Palazzo Coffee Table — Marble\nProduct code: PALAZZO-MARBLE-COFFEE TABLE\nStatus: Photographed 16 November 2026. Editing in progress with Drew.\nNext: Edit, self-check and record final folder.\nHandover: Bronwyn for review when ready; C",
-   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1220565410850646",
-   "modifiedAt": "2026-11-19T06:42:26.837Z",
-   "comments": [
-    {
-     "by": "Drew Leather Gallery",
-     "at": "2026-11-16T14:42:07.364Z",
-     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table\n\nPhotos edited and uploaded \n\n@mention@mention"
-    },
-    {
-     "by": "Calvin",
-     "at": "2026-11-17T07:08:29.595Z",
-     "text": "Hi Drew \n\nThis angle looks darker \ncan you help make it lighter to match the other angles \n\nhttps://app.asana.com/app/asana/-/get_asset?asset_id=1220598806581318\n"
-    },
-    {
-     "by": "Drew Leather Gallery",
-     "at": "2026-11-18T06:29:01.444Z",
-     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Palazzo Coffee Table\n\nthe photos for the table have been edited as requested and are uploaded in the server \n\n@mention @mention"
-    }
-   ]
-  },
-  {
    "id": "1216919347390734",
    "kind": "asana",
    "name": "RAVELLO-VINTAGE COGNAC-2S",
@@ -831,26 +936,6 @@
      "by": "Calvin",
      "at": "2026-11-18T08:54:10.543Z",
      "text": "This has been uploaded"
-    }
-   ]
-  },
-  {
-   "id": "1220569062602388",
-   "kind": "asana",
-   "name": "Castro Coffee Table — Natural",
-   "owner": "Calvin",
-   "stage": "Done — my work",
-   "due": null,
-   "queuePos": null,
-   "notes": "",
-   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table - Nutral\n\nPrevious record and product information\nProduct: Castro Coffee Table — Natural\nProduct code: CASTRO-NATURAL-COFFEE TABLE\nStatus: Photographed 16 November 2026. Editing in progress with Drew.\nNext: Edit, self-check and record final folder.\nHandover: Bronwyn for review when ready; Calvin for website upload.\nEditing deadline: To agree.",
-   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1220569062602388",
-   "modifiedAt": "2026-11-18T08:20:03.806Z",
-   "comments": [
-    {
-     "by": "Drew Leather Gallery",
-     "at": "2026-11-17T08:03:59.508Z",
-     "text": "\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\LIVING\\COFFEE TABLE\\Castro coffee table - Nutral\n\nPhotos edited and uploaded \n\n@mention@mention"
     }
    ]
   },
@@ -1008,26 +1093,6 @@
    ]
   },
   {
-   "id": "1216919347390742",
-   "kind": "asana",
-   "name": "VALEN-MIDNIGHT BROWN-2S",
-   "owner": "Calvin",
-   "stage": null,
-   "due": null,
-   "queuePos": null,
-   "notes": "",
-   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\SOFA\\Valen Leather Couch - Midnight Brown\n\nPrevious record and product information\nStatus: Photographed, reported by Karabo on 10 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder. Bronwyn reviews; Calvin handles website images.\nReference: https://leathergallery.co.za/products/valen-leather-couch\n\nProduct information\nSUPPLIER INFORMATION\nSUPPLIER NAME\n \n \n \nPRODUCT CODE\n \nVALEN-MIDNIGHT BROWN-2S\nVALEN-ONYX BLACK-2S\n \n\n \n\nPRODUCT INFORMATION\nPRODUCT NAME\n \n \nVALEN LEATHER COUCH\n",
-   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390742",
-   "modifiedAt": "2026-11-17T11:20:40.922Z",
-   "comments": [
-    {
-     "by": "Drew Leather Gallery",
-     "at": "2026-11-13T07:57:05.640Z",
-     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Valen Leather Couch - Midnight Brown\n\nImages edited and on the server \n\n@mention @mention"
-    }
-   ]
-  },
-  {
    "id": "1216919347390786",
    "kind": "asana",
    "name": "EVARA-MEADOW GREEN-STOOL",
@@ -1054,40 +1119,6 @@
    "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1220359683896325",
    "modifiedAt": "2026-11-17T11:20:40.904Z",
    "comments": []
-  },
-  {
-   "id": "1216919347390762",
-   "kind": "asana",
-   "name": "ASTOR-VINTAGE COGNAC-CHAIR",
-   "owner": "Calvin",
-   "stage": null,
-   "due": null,
-   "queuePos": null,
-   "notes": "",
-   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Astor Leather Chair — Vintage Cognac\n\nPrevious record and product information\nFiles: \\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\DINING\\Astor Leather Chair — Vintage Cognac\\\n\nStatus: Photography complete — Karabo confirmed all 26 new Stattera products photographed on 11 November 2026. This is the confirmation date; individual shoot date not supplied. Batch editing has started; this product's editing completion is not yet confirmed.\nNext: Edit, match colour reference, self-check and record final folder. Bronwyn reviews; Calvi",
-   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390762",
-   "modifiedAt": "2026-11-17T11:20:40.895Z",
-   "comments": []
-  },
-  {
-   "id": "1216919347390751",
-   "kind": "asana",
-   "name": "TENOR-DEEP RUSSET-1S",
-   "owner": "Calvin",
-   "stage": null,
-   "due": null,
-   "queuePos": null,
-   "notes": "",
-   "description": "Current update — 17 November 2026\nStatus: Editing done. Images are loaded and can be checked.\nNext: Calvin to check the supplied folders against the website and load what is remaining; confirm uploads or flag corrections.\nFiles:\n\\\\NAS-LG\\Marketing\\1.PRODUCTS\\STATTERA\\OCCASIONAL\\Tenor Leather Armchair - Deep Russet\n\nPrevious record and product information\nStatus: Photography confirmed by Karabo, update 9 November 2026. Editing completion not yet confirmed.\nNext: Edit, self-check and record final folder; Bronwyn reviews, then Calvin handles website images.\nReference: https://leathergallery.co.za/products/tenor-leather-armchair\n\nProduct information\nSUPPLIER NAME\n \nPRODUCT CODE\nTENOR-DEEP RUSSET-1S\nTENOR-STONE BEIGE-1S\n \n\n \n\nPRODUCT INFORMATION\nPRODUCT NAME\nTENOR LEATHER ARMCHAIR\nTENOR FABRIC ",
-   "url": "https://app.asana.com/1/158966654610873/project/1214802081151743/task/1216919347390751",
-   "modifiedAt": "2026-11-17T11:20:40.892Z",
-   "comments": [
-    {
-     "by": "Drew Leather Gallery",
-     "at": "2026-11-13T08:27:38.647Z",
-     "text": "Z:\\1.PRODUCTS\\STATTERA\\SOFA\\Tenor Leather Armchair - Deep Russet\n\nPhotos edited and uploaded to the server \n\n@mention @mention"
-    }
-   ]
   },
   {
    "id": "1216919347390782",

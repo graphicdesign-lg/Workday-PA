@@ -1,48 +1,94 @@
 rules_version = '2';
-// Paste into Firebase console → Firestore Database → Rules → Publish.
-// Signed-in (anonymous) visitors can read and add. Notes and messages can't be edited or deleted from the site.
+// Workday PA team board. Paste into Firebase console → Firestore Database → Rules → Publish.
+// - Visitors sign in anonymously and act as "drew" or "kb".
+// - The PA bridge on Drew's PC signs in as the sync account (SYNC_UID) and acts as "pa".
+// - Live Asana data (asana/*) can only be written by the PA bridge.
+// - Messages, notes, logs and PA requests are add-only from the site (no edits or deletes).
 service cloud.firestore {
   match /databases/{db}/documents {
     function signedIn() { return request.auth != null; }
+    function isPA() { return signedIn() && request.auth.uid == 'V3iIMCBjaiPhK9ISVKc6npAdGOD3'; }
     function d() { return request.resource.data; }
-    function user(v) { return v in ['drew', 'kb']; }
+    function person(v) { return v in ['drew', 'kb']; }
+    function actor(v) { return person(v) || (v == 'pa' && isPA()); }
     function txt(v, max) { return v is string && v.size() > 0 && v.size() <= max; }
     function optTxt(f, max) { return !(f in d()) || d()[f] == null || (d()[f] is string && d()[f].size() <= max); }
     function stamped() { return d().at == request.time; }
+    function stageOk(v) { return v in ['To do', 'To shoot', 'Ready to edit', 'Editing', 'Ready for review', 'Changes requested', 'Approved', 'Ready to upload', 'Uploaded to website', 'Asana updated', 'On hold']; }
+    function priOk() { return !('priority' in d()) || d().priority in ['High', 'Normal', 'Low']; }
+    function dueOk() { return !('due' in d()) || d().due == null || (d().due is string && d().due.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')); }
 
     match /messages/{id} {
       allow read: if signedIn();
-      allow create: if signedIn() && user(d().author) && txt(d().text, 2000) && stamped()
+      allow create: if signedIn() && actor(d().author) && txt(d().text, 2000) && stamped()
         && optTxt('taskId', 100) && optTxt('taskName', 300)
         && d().keys().hasOnly(['author', 'text', 'at', 'taskId', 'taskName']);
-      allow update, delete: if false;
     }
     match /notes/{id} {
       allow read: if signedIn();
-      allow create: if signedIn() && user(d().author) && txt(d().text, 2000) && stamped()
+      allow create: if signedIn() && actor(d().author) && txt(d().text, 2000) && stamped()
         && txt(d().taskId, 100) && optTxt('taskName', 300)
         && d().keys().hasOnly(['author', 'text', 'at', 'taskId', 'taskName']);
-      allow update, delete: if false;
     }
-    // One document per task: who it is assigned to now (passing on overwrites it).
+    match /log/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && actor(d().by) && txt(d().text, 1000) && txt(d().kind, 20) && stamped()
+        && optTxt('taskId', 100) && optTxt('taskName', 300)
+        && d().keys().hasOnly(['kind', 'by', 'text', 'at', 'taskId', 'taskName']);
+    }
     match /assignments/{taskId} {
       allow read: if signedIn();
-      allow create, update: if signedIn() && (user(d().assignee) || d().assignee == 'none') && user(d().by) && stamped()
+      allow create, update: if signedIn() && (person(d().assignee) || d().assignee == 'none') && actor(d().by) && stamped()
         && optTxt('note', 300) && optTxt('taskName', 300)
         && d().keys().hasOnly(['assignee', 'by', 'at', 'note', 'taskName']);
-      allow delete: if false;
     }
-    // Things to update in Asana by hand. Only the done/undone fields can change after creation.
+    match /stages/{taskId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && stageOk(d().stage) && actor(d().by) && stamped()
+        && optTxt('note', 500) && optTxt('taskName', 300)
+        && d().keys().hasOnly(['stage', 'by', 'at', 'note', 'taskName']);
+    }
+    match /stageLog/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && txt(d().taskId, 100) && stageOk(d().stage) && (!('from' in d()) || d().from == null || stageOk(d().from))
+        && actor(d().by) && stamped() && optTxt('note', 500) && optTxt('taskName', 300)
+        && d().keys().hasOnly(['taskId', 'taskName', 'stage', 'from', 'by', 'note', 'at']);
+    }
+    match /taskEdits/{taskId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && txt(d().name, 200) && actor(d().by) && stamped() && priOk() && dueOk()
+        && d().keys().hasOnly(['name', 'due', 'priority', 'by', 'at']);
+    }
+    match /customTasks/{id} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && txt(d().name, 200) && actor(d().createdBy) && stamped() && priOk() && dueOk()
+        && optTxt('description', 2000)
+        && d().keys().hasOnly(['name', 'due', 'priority', 'description', 'createdBy', 'at', 'archived']);
+    }
+    // Things to change in Asana by hand / via ChatGPT. Only done/undone can change afterwards.
     match /asanaTodos/{id} {
       allow read: if signedIn();
-      allow create: if signedIn() && user(d().author) && user(d().who) && txt(d().text, 2000) && txt(d().type, 60)
+      allow create: if signedIn() && actor(d().author) && person(d().who) && txt(d().text, 2000) && txt(d().type, 60)
         && d().done == false && stamped() && optTxt('taskId', 100) && optTxt('taskName', 300)
         && d().keys().hasOnly(['type', 'text', 'taskId', 'taskName', 'who', 'author', 'done', 'at']);
       allow update: if signedIn()
         && d().diff(resource.data).affectedKeys().hasOnly(['done', 'doneBy', 'doneAt'])
-        && ((d().done == true && user(d().doneBy) && d().doneAt == request.time)
+        && ((d().done == true && person(d().doneBy) && d().doneAt == request.time)
             || (d().done == false && d().doneBy == null && d().doneAt == null));
-      allow delete: if false;
+    }
+    // Ask-the-PA requests: people create them; only the PA bridge answers.
+    match /paRequests/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && person(d().author) && txt(d().text, 2000) && d().status == 'pending' && stamped()
+        && optTxt('taskId', 100) && optTxt('taskName', 300)
+        && d().keys().hasOnly(['author', 'text', 'status', 'at', 'taskId', 'taskName']);
+      allow update: if isPA()
+        && d().diff(resource.data).affectedKeys().hasOnly(['status', 'reply', 'references', 'applied', 'repliedAt']);
+    }
+    // Live Asana snapshot + PA heartbeat, written only by the PA bridge.
+    match /asana/{doc} {
+      allow read: if signedIn();
+      allow write: if isPA();
     }
     match /{other=**} { allow read, write: if false; }
   }
