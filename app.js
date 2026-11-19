@@ -245,6 +245,31 @@ const SUGGEST = {
   calvin: ['What is ready to upload?', 'What did I upload this week?', 'Which tasks are waiting on me?', 'Mark Stellan as uploaded to website'],
 };
 function asanaBridgeOnline() { return asanaStatus && Date.now() - ts(asanaStatus.at) < 3 * 60000; }
+/* ---------- live Asana: straight from the PA app on this PC, else the live team-sync feed ---------- */
+let appLiveAt = 0;
+function asanaState() {
+  if (dataSource === 'app' && Date.now() - appLiveAt < 60000) {
+    const at = ts(data.liveCheckAt) || appLiveAt;
+    return { cls: 'ok', label: 'Asana live', at, title: 'Live from the Workday PA app on this computer (Asana checked every ~15 s). Last check ' + fmt(at) };
+  }
+  if (dataSource === 'live' && asanaStatus?.live && asanaBridgeOnline()) {
+    const at = ts(asanaStatus.lastCheckAt) || ts(asanaStatus.at);
+    return { cls: 'ok', label: 'Asana live', at, title: 'Live from Drew’s Workday PA (Asana checked every ~15 s). Last check ' + fmt(at) };
+  }
+  const at = dataSource === 'live' ? ts(asanaStatus?.asanaAt) || ts(data.publishedAt) : ts(data.exportedAt);
+  return { cls: 'bad', label: 'Asana offline', at, title: 'No live Asana feed right now. Showing tasks as of ' + fmt(at) + '.' };
+}
+async function pollAppLive() {
+  if (location.protocol !== 'http:' || location.hostname !== '127.0.0.1') return;
+  try {
+    const r = await fetch('/api/asana-live', { cache: 'no-store' });
+    if (!r.ok) return;
+    const j = await r.json();
+    if (!Array.isArray(j.queue) || !Array.isArray(j.team)) return;
+    data = j; dataSource = 'app'; appLiveAt = Date.now(); fillTaskNames(); renderAll();
+  } catch {}
+}
+setInterval(pollAppLive, 15000);
 const localPA = location.protocol === 'http:' && location.hostname === '127.0.0.1';
 let paSession = null, paTurns = [], paBusy = false, paConnecting = false, paGeneration = 0;
 
@@ -266,7 +291,6 @@ function closePersonalPA() {
   paBusy = false;
   paConnecting = false;
   paGeneration++;
-  $('#pa-key').value = '';
   $('#pa-input').value = '';
   $('#pa-connect-status').textContent = '';
   setPaAbout(null);
@@ -275,17 +299,35 @@ function closePersonalPA() {
 window.addEventListener('pagehide', closePersonalPA);
 window.addEventListener('pageshow', event => { if (event.persisted) renderAll(); });
 
-$('#pa-connect').addEventListener('submit', async event => {
+// Claude subscription sign-in (claude.ai through Claude Code on this computer — no API key).
+let claudeState = null, claudePoll = null;
+async function refreshClaude() {
+  if (!localPA || !me || paSession) return;
+  try { claudeState = await personalPA('status', {profile: me}, null); } catch (e) { claudeState = {error: e.status ? e.message : 'Start the personal PA on this computer (Start-Personal-PA.cmd).'}; }
+  const s = claudeState, st = $('#pa-claude-status');
+  st.textContent = s.error ? s.error : !s.installed ? 'Claude Code isn’t installed on this computer. Install the Claude desktop app (claude.ai/download), open its Code tab once, then come back.' :
+    s.apiAccount ? 'Claude Code here is signed in with an API account. Click “Sign in with Claude” to use your Claude subscription instead.' :
+    s.signedIn ? `Signed in with your Claude ${s.plan ? s.plan + ' ' : ''}subscription. Click “Connect my Claude”.` :
+    s.loginPending ? 'Finish signing in in the Claude window / browser that opened…' : 'Not signed in yet. Click “Sign in with Claude” and log in with your own claude.ai account.';
+  $('#pa-signin').hidden = !!s.signedIn || !s.installed;
+  $('#pa-connect-btn').disabled = !s.signedIn || paConnecting;
+  clearTimeout(claudePoll);
+  if (s.loginPending && !s.signedIn) claudePoll = setTimeout(refreshClaude, 4000);
+}
+$('#pa-signin').addEventListener('click', async () => {
+  try { await personalPA('signin', {profile: me}, null); toast('A Claude sign-in window opened — log in with your claude.ai account.'); }
+  catch (e) { toast(e.message || 'Could not start Claude sign-in.'); }
+  setTimeout(refreshClaude, 1500);
+});
+$('#pa-connect-btn').addEventListener('click', async event => {
   event.preventDefault();
   if (!localPA || !me || paConnecting || paSession) return;
   const profile = me, generation = paGeneration;
-  const key = $('#pa-key').value.trim();
-  $('#pa-key').value = '';
   paConnecting = true;
   renderAll();
-  $('#pa-connect-status').textContent = 'Checking your Claude API account…';
+  $('#pa-connect-status').textContent = 'Connecting to your Claude subscription…';
   try {
-    const {token} = await personalPA('connect', {profile, key});
+    const {token} = await personalPA('connect', {profile});
     const session = {profile, token};
     if (generation !== paGeneration) {
       personalPA('disconnect', {profile}, session, true).catch(() => {});
@@ -373,7 +415,7 @@ async function applyPAAction(turn) {
   } finally { renderAll(); }
 }
 async function askPersonalPA(text, about = null) {
-  if (!localPA || !paSession) { toast('Connect your own Claude API account in the PA tab first.'); return false; }
+  if (!localPA || !paSession) { toast('Connect your Claude subscription in the PA tab first.'); return false; }
   if (paBusy) return false;
   const session = paSession;
   const context = paContext(about);
@@ -469,10 +511,10 @@ function renderPA() {
   $('#pa-local-link').hidden = localPA;
   $('#pa-form').hidden = !paSession;
   $('#pa-disconnect').hidden = !paSession;
-  $('#pa-connect button').disabled = paConnecting;
+  if (localPA && !paSession && !paConnecting && (!claudeState || Date.now() - (renderPA.lastCheck || 0) > 15000)) { renderPA.lastCheck = Date.now(); refreshClaude(); }
   $('#pa-input').disabled = paBusy;
   $('#pa-form button[type="submit"]').disabled = paBusy;
-  $('#pa-note').textContent = backend?.local ? 'Shared sync is unavailable. The PA is using the saved snapshot.' : 'Using your Claude API account and the shared board.';
+  $('#pa-note').textContent = backend?.local ? 'Shared sync is unavailable. The PA is using the saved snapshot.' : 'Using your own Claude subscription and the shared board.';
 }
 function taskTag(id, name) { const tag = el('span', 'tag', '↳ ' + (name || 'task')); tag.addEventListener('click', () => openDrawer(id)); return tag; }
 function setPaAbout(t) { paAbout = t ? { id: t.id, name: t.name } : null; $('#pa-about').hidden = !paAbout; if (paAbout) $('#pa-about span').textContent = 'About: ' + paAbout.name; }
@@ -746,7 +788,7 @@ function bcard(title, items, { full, empty = 'Nothing here.', count } = {}) {
 function renderBriefView() {
   const now = new Date();
   $('#brief-title').textContent = `${now.getHours() < 12 ? 'Good morning' : now.getHours() < 17 ? 'Good afternoon' : 'Good evening'}, ${uname(me)}`;
-  const src = dataSource === 'live' ? 'Live Asana via Drew’s PA' : 'Asana snapshot ' + fmt(ts(data.exportedAt));
+  const src = asanaState().label + ' · ' + fmt(asanaState().at);
   $('#brief-sub').textContent = now.toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long' }) + ' · ' + src;
   const body = $('#brief-body'); body.replaceChildren();
   const open = allTasks().filter(t => !FINISHED.has(stageOf(t).stage));
@@ -865,10 +907,12 @@ function updateCounts() {
   document.title = (unread + paNew ? `(${unread + paNew}) ` : '') + 'Workday PA';
   // status pills
   const pA = $('#pill-asana'), pP = $('#pill-pa');
-  const snapAt = dataSource === 'live' ? ts(asanaStatus?.asanaAt) || ts(data.publishedAt) : ts(data.exportedAt);
-  pA.className = 'pill ' + (dataSource === 'live' && asanaStatus?.live && asanaBridgeOnline() ? 'ok' : dataSource === 'live' ? 'warn' : 'bad');
-  pA.lastChild.textContent = dataSource === 'live' ? (asanaStatus?.live && asanaBridgeOnline() ? 'Asana live' : 'Asana ' + ago(snapAt)) : 'Asana snapshot ' + ago(snapAt);
-  pA.title = dataSource === 'live' ? 'Live Asana data from Drew’s PA (checked every ~15 s while it runs). Last Asana data: ' + fmt(snapAt) : 'Static snapshot from ' + fmt(snapAt) + '. Live sync not connected.';
+  const st = asanaState();
+  pA.className = 'pill ' + st.cls; pA.lastChild.textContent = st.label; pA.title = st.title;
+  const offlineMsg = 'Asana is offline on this board — showing tasks as of ' + fmt(st.at) + '. Live updates need Drew’s Workday PA running with Team site sync connected (PA → Settings → Team site sync).';
+  const b = $('#banner');
+  if (st.cls === 'bad' && (b.hidden || b.dataset.asana)) { banner(offlineMsg); b.dataset.asana = '1'; }
+  else if (st.cls !== 'bad' && b.dataset.asana) { banner(''); delete b.dataset.asana; }
   pP.className = 'pill ' + (paSession ? 'ok' : 'warn'); pP.lastChild.textContent = paSession ? 'Personal PA connected' : 'Personal PA';
 }
 function renderAll() {
@@ -925,6 +969,8 @@ async function firebaseBackend(cfg) {
   listen('paRequests', 150, () => { if (view === 'pa') { markRead('pa'); scrollThread(); } });
   fs.onSnapshot(fs.doc(fdb, 'asana', 'snapshot'), d => {
     if (!d.exists()) return;
+    // Direct data from the PA app on this PC wins while it is fresh; otherwise use the live team-sync feed.
+    if (dataSource === 'app' && Date.now() - appLiveAt < 60000) return;
     try { const x = d.data(); const j = JSON.parse(x.json); j.publishedAt = toMs(x.at); data = j; dataSource = 'live'; fillTaskNames(); renderAll(); } catch {}
   }, () => {});
   fs.onSnapshot(fs.doc(fdb, 'asana', 'status'), d => { asanaStatus = d.exists() ? { ...d.data(), at: toMs(d.data().at) } : null; renderAll(); }, () => {});
@@ -1121,6 +1167,7 @@ async function start() {
   if (started) return setView(view);
   started = true;
   fillTaskNames();
+  pollAppLive();
   const cfg = window.FIREBASE_CONFIG || {};
   if (cfg.apiKey && cfg.projectId) {
     try { backend = await firebaseBackend(cfg); }
